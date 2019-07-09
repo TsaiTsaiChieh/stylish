@@ -38,10 +38,14 @@ Build your first Node.js project for web server on your instance. Just as before
 
 Everytime you hand in assignment, I will check your **GitHub repository** and **website URL**. So, build a working flow between your local machine and cloud environment, which can be supported by **Git** and **GitHub**.
 
+---
+
 ## Run Web Server in the Background
 
 You should keep web server alive even if you close connection from your instance or do other tasks at the same time.  
 Find a way to run web server in the background and **write down your solution in README.md file.**
+
+---
 
 ## MySQL Database Server
 
