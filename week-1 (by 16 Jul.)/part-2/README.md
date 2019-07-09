@@ -37,3 +37,27 @@ Build your first Node.js project for web server on your instance. Just as before
 ### Build Working Flow
 
 Everytime you hand in assignment, I will check your **GitHub repository** and **website URL**. So, build a working flow between your local machine and cloud environment, which can be supported by **Git** and **GitHub**.
+
+## Run Web Server in the Background
+
+You should keep web server alive even if you close connection from your instance or do other tasks at the same time.  
+Find a way to run web server in the background and **write down your solution in README.md file.**
+
+## MySQL Database Server
+
+We will use MySQL as database solution. Today, let's install and run MySQL on your instance.
+
+### Install and Run MySQL Server
+
+Find a way to install and run MySQL on your instance. You can use MySQL 5.7 or 8.0 version.
+
+### Manage MySQL from Command Line Interface
+
+Connect to MySQL server from command line interface on your instance. Create a database named **stylish** and create a **product** table which includes columns listed below.
+
+| Field | Type | Null | Key | Extra |
+| :---: | :---: | :--- | :--- | :--- |
+| id | bigint unsigned | no | primary | auto_increment |
+| title | varchar(255) | no | | |
+
+From now on, **always keep a SQL database file in your project** exported by mysqldump tool.
