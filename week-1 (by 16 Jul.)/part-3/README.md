@@ -1,29 +1,5 @@
 # Week 1 Part 3
 
-## Run Web Server in the Background
-
-You should keep web server alive even if you close connection from your instance or do other tasks at the same time.  
-Find a way to run web server in the background and **write down your solution in README.md file.**
-
-## MySQL Database Server
-
-We will use MySQL as database solution. Today, let's install and run MySQL on your instance.
-
-### Install and Run MySQL Server
-
-Find a way to install and run MySQL on your instance. You can use MySQL 5.7 or 8.0 version.
-
-### Manage MySQL from Command Line Interface
-
-Connect to MySQL server from command line interface on your instance. Create a database named **stylish** and create a **product** table which includes columns listed below.
-
-| Field | Type | Null | Key | Extra |
-| :---: | :---: | :--- | :--- | :--- |
-| id | bigint unsigned | no | primary | auto_increment |
-| title | varchar(255) | no | | |
-
-From now on, **always keep a SQL database file in your project** exported by mysqldump tool.
-
 ## Overview of What We Should Complete
 
 ### Complete RESTful APIs
@@ -50,3 +26,20 @@ For testing and management, you should create some simple web pages for data man
 * **/admin/product.html** for product management.
 * **/admin/campaign.html** for campaign management.
 * **/admin/checkout.html** for check out testing.
+
+---
+
+## Build Product APIs
+
+### Create Tables Necessary
+
+Look at all product APIs closely and carefully. It's your job to create appropriate tables in MySQL server to support all the APIs.
+
+### Build Product Management Page
+
+Build a simple web page we can access through `http://[YOUR_PUBLIC_ELASTIC_IP]/admin/product.html`. In this page, show a form for adding new product data which should include necessary text input fields and file fields for uploading product images.
+
+### Build Product Create API for Management
+
+Sometimes, you have to build API for internal use. It's time coming!  
+Use [multer module](https://github.com/expressjs/multer) to handle file uploading.
