@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const body_parser = require('body-parser');
+
+
 app.use(body_parser.urlencoded({ extended: false }));
 app.use('/admin', express.static('public'));
 

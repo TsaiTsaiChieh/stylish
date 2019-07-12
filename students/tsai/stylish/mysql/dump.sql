@@ -25,8 +25,20 @@ DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `price` int(11) NOT NULL,
+  `texture` varchar(255) DEFAULT NULL,
+  `wash` varchar(255) DEFAULT NULL,
+  `place` varchar(255) DEFAULT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `story` varchar(255) DEFAULT NULL,
+  `colors` json DEFAULT NULL,
+  `sizes` json DEFAULT NULL,
+  `variants` json DEFAULT NULL,
+  `main_image` varchar(255) DEFAULT NULL,
+  `images` json DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,6 +47,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES (1,'厚實毛呢格子外套','高抗寒素材選用，保暖也時尚有型',2200,'棉、聚脂纖維','手洗（水溫40度)','韓國','實品顏色以單品照為主','你絕對不能錯過的超值商品','[{\"code\": \"334455\", \"name\": \"深藍\"}, {\"code\": \"ffffff\", \"name\": \"白色\"}]','[\"S\", \"M\"]','[{\"size\": \"S\", \"stock\": 5, \"color_code\": \"334455\"}, {\"size\": \"M\", \"stock\": 0, \"color_code\": \"FFFFFF\"}]','https://stylish.com/main.jpg','[\"https://stylish.com/0.jpg\", \"https://stylish.com/1.jpg\", \"https://stylish.com/2.jpg\"]'),(2,'厚實毛呢格子外套','高抗寒素材選用，保暖也時尚有型',2200,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,'厚實毛呢格子外套','高抗寒素材選用，保暖也時尚有型',2200,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,'厚實毛呢格子外套','高抗寒素材選用，保暖也時尚有型',2200,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,'厚實毛呢格子外套','高抗寒素材選用，保暖也時尚有型',2200,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(6,'厚實毛呢格子外套','高抗寒素材選用，保暖也時尚有型',2200,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7,'厚實毛呢格子外套','高抗寒素材選用，保暖也時尚有型',2200,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(8,'厚實毛呢格子外套','高抗寒素材選用，保暖也時尚有型',2200,'棉、聚脂纖維','手洗（水溫40度','韓國','實品顏色以單品照為主','你絕對不能錯過的超值商品',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -47,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-11 16:10:48
+-- Dump completed on 2019-07-12 14:56:52

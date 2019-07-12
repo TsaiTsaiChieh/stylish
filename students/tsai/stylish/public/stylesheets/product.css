@@ -6,13 +6,18 @@ h2 {
     font-size: 1.5em;
     padding: .5em;
 }
+h3 {
+    color: slategrey;
+    font-size: 1em;
+}
 .product {
     padding-top: 2em; 
     display: flex;
     flex-direction: column;
 }
 label {
-    /* line-height: 2; */
+    color: slategrey;
+    font-weight: bold;
 }
 .product_form {
     font-size: 1.2em;
@@ -22,7 +27,7 @@ label {
     width: 80%;
     align-items: center;
     flex-direction: column;
-    margin: 1em auto;
+    margin: auto;
 }
 button
 {
@@ -37,9 +42,34 @@ button
 }
 
 input {
-    margin-left:.5em;
     line-height: 1.5em;
     width: 20em;
     font-size: 1em;
     text-align: center;
+}
+
+.wrap {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+/* for color wrap */
+.colors_wrap,
+.variants_wrap 
+{
+    font-size: 1em;
+    display: flex;
+    flex-direction: row;
+}
+.colors_wrap input {
+    width: 7em;
+}
+.colors_wrap label,
+.variants_wrap label {
+    color: #666;
+}
+/* for varients wrap */
+.variants_wrap input {
+    width: 5em;
 }
