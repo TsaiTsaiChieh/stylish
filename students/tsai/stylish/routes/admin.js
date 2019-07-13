@@ -8,7 +8,7 @@ var upload = multer({ dest: 'uploads/' });
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "07081009",
+    password: "0000",
     database: "stylish"
 });
 

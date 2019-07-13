@@ -1,5 +1,8 @@
 蔡采潔
 </br>http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/
+</br>Build Product Management Page:
+http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/admin/product.html
+
 </br>Run Web Server in the Background
 Most step follow by this link:
 </br>https://hackernoon.com/tutorial-creating-and-managing-a-node-js-server-on-aws-part-2-5fbdea95f8a1
@@ -11,7 +14,8 @@ additional:
 List all processes use> pm2 ls
 Stop the pm2> pm2 stop index.js
 Remove index from the pm2 list> pm2 delete index
-
+start 前要把 killall -9 node
+- - -
 sudo yum install mysql-server mysql-client
 在安裝時 Mysql 時，途中不會要輸入帳號密碼
 https://serverfault.com/questions/800268/how-to-set-root-password-for-aws-ec2-with-mysql-preinstalled
@@ -48,3 +52,19 @@ yum update mysql
 sudo yum install https://dev.mysql.com/get/mysql57-community-release-el6-11.noarch.rpm
 yum clean all
 yum install mysql-community-server
+修改 mysql 密碼：
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY '0000';
+- - -
+mysql JSON 語法：
+https://dev.mysql.com/doc/refman/8.0/en/json.html
+- - - 
+傳圖片檔案方法：
+https://code.tutsplus.com/tutorials/file-upload-with-multer-in-node--cms-32088
+https://www.js-tutorials.com/nodejs-tutorial/node-js-file-upload-example-using-multer-and-mysql/
+https://kknews.cc/zh-tw/other/gvzxoom.html
+- - -
+Mysql 版本編碼問題 (Server 端是 5.7.26，本機端是 8)
+https://blog.csdn.net/qq_27088383/article/details/53895033
+utf8mb4_unicode_ci 全部改成 utf8_general_ci
+utf8mb4 改成 utf8
+
