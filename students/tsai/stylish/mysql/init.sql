@@ -83,11 +83,4 @@ INSERT INTO
             'https://stylish.com/1.jpg',
             'https://stylish.com/2.jpg'
         )
-    );-- INSERT INTO
-    --     product (id) VALUE(1);-- /* insert data */
-    -- INSERT INTO product (`id`, `title`, `description`, `price`, `colors`, `sizes`)
-    -- VALUES('1', 'Jeans', 'about jeans', '100', JSON_OBJECT("green", "#008000", "blue", "#0000ff"), JSON_ARRAY("160 cm", "165 cm"));
-    -- INSERT INTO product (`id`, `title`, `description`, `price`, `colors`, `sizes`, `note`)
-    -- VALUES('2', 'Jeans', 'about jeans', '100', JSON_OBJECT("green", "#008000", "blue", "#0000ff"), JSON_ARRAY("160 cm", "165 cm"), 'women');
-    -- INSERT INTO product (`id`, `title`, `description`, `price`, `colors`, `sizes`, `note`)
-    -- VALUES('3', 'Jeans', 'about jeans', '100', JSON_OBJECT("green", "#008000", "blue", "#0000ff"), JSON_ARRAY("160 cm", "165 cm"), 'women');
+    );

@@ -25,16 +25,18 @@ router.get('/admin', (req, res) => {
 
 // Set storage
 var storage = multer.diskStorage({
+    // 設定上傳後文件路徑，uploads 資料夾會自動建立
     destination: function (req, files, cb) {
         cb(null, 'uploads');
     },
+    // 給上傳文件重新命名
     filename: function (req, files, cb) {
         files.originalname = files.originalname.replace('.jpg', '') + '_' + Date.now() + '.jpg';
         cb(null, files.originalname);
     }
 })
-
-var upload = multer({ storage: storage })
+// Build Product Management Page
+var upload = multer({ storage: storage }); // 設定添加到 multer 對象
 var imageLoad = upload.fields([{ name: 'products_main_image', maxCount: 1 }, { name: 'products_images', maxCount: 3 }]);
 router.post('/admin/product.html', imageLoad, (req, res) => {
     const title = req.body.products_title;
