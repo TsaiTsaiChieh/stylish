@@ -22,6 +22,19 @@ db.connect(function (err) {
 router.get('/admin', (req, res) => {
     res.send('admin');
 });
+
+// Set storage
+var storage = multer.diskStorage({
+    destination: function (req, files, cb) {
+        cb(null, 'uploads');
+    },
+    filename: function (req, files, cb) {
+        files.originalname = files.originalname.replace('.jpg', '') + '_' + Date.now() + '.jpg';
+        cb(null, files.originalname);
+    }
+})
+
+var upload = multer({ storage: storage })
 var imageLoad = upload.fields([{ name: 'products_main_image', maxCount: 1 }, { name: 'products_images', maxCount: 3 }]);
 router.post('/admin/product.html', imageLoad, (req, res) => {
     const title = req.body.products_title;
@@ -40,11 +53,10 @@ router.post('/admin/product.html', imageLoad, (req, res) => {
     const variant_size = req.body.products_variants_size.split(',');
     const variant_stock = req.body.products_variants_stock.split(',');
     var variants = [];
-    const main_image = JSON.stringify(req.files.products_main_image);
-    const images = JSON.stringify(req.products_images);
+    const main_image = req.files.products_main_image[0].originalname;
+    var images = [];
 
     // colors format
-
     for (let i = 0; i < color_codes.length; i++) {
         let tmp = { code: color_codes[i], name: color_names[i] };
         colors.push(tmp);
@@ -56,15 +68,13 @@ router.post('/admin/product.html', imageLoad, (req, res) => {
         variants.push(tmp);
     }
     variants = JSON.stringify(variants);
-    // file check
-    // if (!main_image) {
-    //     const error = new Error('Please upload a file');
-    //     error.httpStatusCode = 400;
-    // }
 
-    // console.log('main_image:', main_image);
-    // console.log('images:', images);
-
+    // files format
+    for (let i = 0; i < req.files.products_images.length; i++) {
+        let tmp = req.files.products_images[i].originalname;
+        images.push(tmp);
+    }
+    images = JSON.stringify(images);
     let products = { title, description, price, texture, wash, place, note, story, colors, sizes, variants, main_image, images };
 
     let sql_insert = 'INSERT INTO product SET ?';
@@ -73,8 +83,6 @@ router.post('/admin/product.html', imageLoad, (req, res) => {
         else console.log(result);
     });
     res.send('Add product successfully.');
-    // console.log(products_main_image);
 
-    // res.send(images);
 });
 module.exports = router;
