@@ -25,6 +25,18 @@ DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `price` int(11) NOT NULL,
+  `texture` varchar(255) DEFAULT NULL,
+  `wash` varchar(255) DEFAULT NULL,
+  `place` varchar(255) DEFAULT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `story` varchar(255) DEFAULT NULL,
+  `colors` json DEFAULT NULL,
+  `sizes` json DEFAULT NULL,
+  `variants` json DEFAULT NULL,
+  `main_image` varchar(255) DEFAULT NULL,
+  `images` json DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -47,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-11 16:10:48
+-- Dump completed on 2019-07-13 15:18:37
