@@ -22,8 +22,8 @@ db.connect(function (err) {
 router.get('/admin', (req, res) => {
     res.send('admin');
 });
-
-router.post('/admin/product.html', (req, res) => {
+var imageLoad = upload.fields([{ name: 'products_main_image', maxCount: 1 }, { name: 'products_images', maxCount: 3 }]);
+router.post('/admin/product.html', imageLoad, (req, res) => {
     const title = req.body.products_title;
     const description = req.body.products_description;
     const price = req.body.products_price;
@@ -40,8 +40,9 @@ router.post('/admin/product.html', (req, res) => {
     const variant_size = req.body.products_variants_size.split(',');
     const variant_stock = req.body.products_variants_stock.split(',');
     var variants = [];
-    const main_image = req.body.products_main_image;
-    const images = req.body.products_images;
+    const main_image = JSON.stringify(req.files.products_main_image);
+    const images = JSON.stringify(req.products_images);
+
     // colors format
 
     for (let i = 0; i < color_codes.length; i++) {
@@ -55,17 +56,25 @@ router.post('/admin/product.html', (req, res) => {
         variants.push(tmp);
     }
     variants = JSON.stringify(variants);
+    // file check
+    // if (!main_image) {
+    //     const error = new Error('Please upload a file');
+    //     error.httpStatusCode = 400;
+    // }
 
-    console.log(main_image);
-    console.log(images);
+    // console.log('main_image:', main_image);
+    // console.log('images:', images);
 
-    // let products = { title, description, price, texture, wash, place, note, story, colors, sizes, variants };
+    let products = { title, description, price, texture, wash, place, note, story, colors, sizes, variants, main_image, images };
 
-    // let sql_insert = 'INSERT INTO product SET ?';
-    // db.query(sql_insert, products, (err, result) => {
-    //     if (err) throw err;
-    //     else console.log(result);
-    // });
+    let sql_insert = 'INSERT INTO product SET ?';
+    db.query(sql_insert, products, (err, result) => {
+        if (err) throw err;
+        else console.log(result);
+    });
     res.send('Add product successfully.');
+    // console.log(products_main_image);
+
+    // res.send(images);
 });
 module.exports = router;
