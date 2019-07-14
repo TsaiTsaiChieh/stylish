@@ -40,6 +40,7 @@ var upload = multer({ storage: storage }); // 設定添加到 multer 對象
 var imageLoad = upload.fields([{ name: 'products_main_image', maxCount: 1 }, { name: 'products_images', maxCount: 3 }]);
 router.post('/admin/product.html', imageLoad, (req, res) => {
     const title = req.body.products_title;
+    const category = req.body.products_category;
     const description = req.body.products_description;
     const price = req.body.products_price;
     const texture = req.body.products_texture;
@@ -77,7 +78,7 @@ router.post('/admin/product.html', imageLoad, (req, res) => {
         images.push(tmp);
     }
     images = JSON.stringify(images);
-    let products = { title, description, price, texture, wash, place, note, story, colors, sizes, variants, main_image, images };
+    let products = { title, category, description, price, texture, wash, place, note, story, colors, sizes, variants, main_image, images };
 
     let sql_insert = 'INSERT INTO product SET ?';
     db.query(sql_insert, products, (err, result) => {

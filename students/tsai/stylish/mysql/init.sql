@@ -1,7 +1,6 @@
-USE stylish;--
--- product
-CREATE TABLE product (
+USE stylish;DROP TABLE product;CREATE TABLE product (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    category VARCHAR (16) NOT NULL,
     title VARCHAR (255) NOT NULL,
     description VARCHAR (255) NOT NULL,
     price INT NOT NULL,
@@ -16,8 +15,7 @@ CREATE TABLE product (
     main_image VARCHAR (255),
     images JSON,
     PRIMARY KEY (id)
-);--
--- insert data
+);-- insert data
 INSERT INTO
     product (
         id,

@@ -10,6 +10,8 @@ const mainRouters = require('./routes');
 app.use('/', mainRouters);
 const adminRouters = require('./routes/admin');
 app.use('/', adminRouters);
+const productsRouters = require('./routes/products');
+app.use('/api/1/', productsRouters);
 
 app.get('/', (req, res) => {
     res.send('Tsai, Tsai-Chieh');
