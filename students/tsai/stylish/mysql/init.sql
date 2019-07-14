@@ -19,6 +19,7 @@ USE stylish;DROP TABLE product;CREATE TABLE product (
 INSERT INTO
     product (
         id,
+        category,
         title,
         description,
         price,
@@ -34,6 +35,7 @@ INSERT INTO
         images
     ) VALUE (
         '1',
+        'women',
         '厚實毛呢格子外套',
         '高抗寒素材選用，保暖也時尚有型',
         2200,
