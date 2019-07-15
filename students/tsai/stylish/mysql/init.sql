@@ -1,6 +1,6 @@
 USE stylish;DROP TABLE product;CREATE TABLE product (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    category VARCHAR (16) NOT NULL,
+    category VARCHAR(16) NOT NULL,
     title VARCHAR (255) NOT NULL,
     description VARCHAR (255) NOT NULL,
     price INT NOT NULL,
@@ -9,9 +9,7 @@ USE stylish;DROP TABLE product;CREATE TABLE product (
     place VARCHAR (255),
     note VARCHAR (255),
     story VARCHAR (255),
-    colors JSON,
     sizes JSON,
-    variants JSON,
     main_image VARCHAR (255),
     images JSON,
     PRIMARY KEY (id)
