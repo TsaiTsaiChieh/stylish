@@ -1,7 +1,6 @@
-USE stylish;--
--- product
-CREATE TABLE product (
+USE stylish;DROP TABLE product;CREATE TABLE product (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    category VARCHAR(16) NOT NULL,
     title VARCHAR (255) NOT NULL,
     description VARCHAR (255) NOT NULL,
     price INT NOT NULL,
@@ -10,17 +9,21 @@ CREATE TABLE product (
     place VARCHAR (255),
     note VARCHAR (255),
     story VARCHAR (255),
-    colors JSON,
     sizes JSON,
-    variants JSON,
     main_image VARCHAR (255),
     images JSON,
     PRIMARY KEY (id)
-);--
--- insert data
+);CREATE TABLE variant (
+    color_code VARCHAR(16),
+    name VARCHAR(16),
+    size VARCHAR(16),
+    stock INT,
+    product_id BIGINT UNSIGNED NOT NULL
+);-- insert data
 INSERT INTO
     product (
         id,
+        category,
         title,
         description,
         price,
@@ -36,6 +39,7 @@ INSERT INTO
         images
     ) VALUE (
         '1',
+        'women',
         '厚實毛呢格子外套',
         '高抗寒素材選用，保暖也時尚有型',
         2200,

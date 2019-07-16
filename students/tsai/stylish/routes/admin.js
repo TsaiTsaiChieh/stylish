@@ -3,7 +3,6 @@ const mysql = require('mysql'); // npm install mysql
 const router = express.Router();
 const multer = require('multer'); // npm install --save multer
 
-var upload = multer({ dest: 'uploads/' });
 // database
 const db = mysql.createConnection({
     host: "localhost",
@@ -16,7 +15,7 @@ db.connect(function (err) {
     if (err) {
         throw err;
     }
-    console.log("stylish connected!");
+    console.log("stylish in admin connected!");
 });
 
 router.get('/admin', (req, res) => {
@@ -31,6 +30,8 @@ var storage = multer.diskStorage({
     },
     // 給上傳文件重新命名
     filename: function (req, files, cb) {
+
+
         files.originalname = files.originalname.replace('.jpg', '') + '_' + Date.now() + '.jpg';
         cb(null, files.originalname);
     }
@@ -39,6 +40,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage }); // 設定添加到 multer 對象
 var imageLoad = upload.fields([{ name: 'products_main_image', maxCount: 1 }, { name: 'products_images', maxCount: 3 }]);
 router.post('/admin/product.html', imageLoad, (req, res) => {
+    const category = req.body.products_category;
     const title = req.body.products_title;
     const description = req.body.products_description;
     const price = req.body.products_price;
@@ -47,44 +49,80 @@ router.post('/admin/product.html', imageLoad, (req, res) => {
     const place = req.body.products_place;
     const note = req.body.products_note;
     const story = req.body.products_story;
-    const color_codes = req.body.products_colors_code.split(',');
-    const color_names = req.body.products_colors_name.split(',');
-    var colors = [];
-    const sizes = JSON.stringify(req.body.products_sizes.split(','));
-    const variant_code = req.body.products_variants_code.split(',');
-    const variant_size = req.body.products_variants_size.split(',');
-    const variant_stock = req.body.products_variants_stock.split(',');
-    var variants = [];
+    const sizes = JSON.stringify(req.body.products_sizes.replace(/\s+/g, "").split(','));
+    const variants_code = req.body.products_variants_code.replace(/\s+/g, "").split(',');
+    const variants_name = req.body.products_variants_name.replace(/\s+/g, "").split(',');
+    const variants_size = req.body.products_variants_size.replace(/\s+/g, "").split(',');
+    const variants_stock = req.body.products_variants_stock.replace(/\s+/g, "").split(',');
     const main_image = req.files.products_main_image[0].originalname;
-    var images = [];
-
-    // colors format
-    for (let i = 0; i < color_codes.length; i++) {
-        let tmp = { code: color_codes[i], name: color_names[i] };
-        colors.push(tmp);
-    }
-    colors = JSON.stringify(colors);
-    // variants format
-    for (let i = 0; i < variant_code.length; i++) {
-        let tmp = { color_code: variant_code[i], size: variant_size[i], stock: variant_stock[i] };
-        variants.push(tmp);
-    }
-    variants = JSON.stringify(variants);
+    var product_id = 0;
 
     // files format
+    var images = [];
     for (let i = 0; i < req.files.products_images.length; i++) {
         let tmp = req.files.products_images[i].originalname;
         images.push(tmp);
     }
     images = JSON.stringify(images);
-    let products = { title, description, price, texture, wash, place, note, story, colors, sizes, variants, main_image, images };
 
-    let sql_insert = 'INSERT INTO product SET ?';
-    db.query(sql_insert, products, (err, result) => {
+    let products = { category, title, description, price, texture, wash, place, note, story, sizes, main_image, images };
+    let sql_insert_product = `INSERT INTO product SET ?`;
+
+
+    db.query(sql_insert_product, products, (err, result) => {
         if (err) throw err;
         else console.log(result);
+        product_id = result.insertId;
+
+        for (let i = 0; i < variants_code.length; i++) {
+            let insert_variant = `INSERT INTO variant SET ?`;
+            // result[0].id print the search result id
+            let variants = { color_code: variants_code[i], name: variants_name[i], size: variants_size[i], stock: variants_stock[i], product_id };
+            db.query(insert_variant, variants, (err, result) => {
+                if (err) throw err;
+                else console.log('insert variant:', result);
+            });
+
+
+        }
     });
+    // files format
+    // for (let i = 0; i < req.files.products_images.length; i++) {
+    //     let tmp = req.files.products_images[i].originalname;
+    //     images.push(tmp);
+    // }
+    // images = JSON.stringify(images);
+
+    // let products = { category, title, description, price, texture, wash, place, note, story, sizes, main_image, images };
+    // let sql_insert_product = `INSERT INTO product SET ?`;
+
+    // db.query(sql_insert_product, products, (err, result) => {
+    //     if (err) throw err;
+    //     else console.log(result);
+    //     product_id = result.insertId;
+    // });
+
+    // // variants format
+    // for (let i = 0; i < variants_code.length; i++) {
+    //     let search_color = `SELECT color.code FROM color WHERE color.code = '${variants_code[i]}'`;
+    //     db.query(search_color, (err, result) => {
+    //         if (err) throw err;
+    //         else console.log('search_color_code:', result);
+    //         // 搜尋顏色 id 後，加入 size 和 stock 資訊
+    //         let insert_variant = `INSERT INTO variant SET ?`;
+    //         console.log('printf:', result[0].code);
+
+    //         // result[0].id print the search result id
+    //         let variants = { color_code: result[0].code, size: variants_size[i], stock: variants_stock[i], product_id };
+    //         db.query(insert_variant, variants, (err, result) => {
+    //             if (err) throw err;
+    //             else console.log('insert variant:', result);
+    //         });
+
+    //     });
+    // }
     res.send('Add product successfully.');
+
 
 });
 module.exports = router;

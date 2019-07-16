@@ -6,6 +6,7 @@ http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/admin/product.html
 </br>Run Web Server in the Background
 Most step follow by this link:
 </br>https://hackernoon.com/tutorial-creating-and-managing-a-node-js-server-on-aws-part-2-5fbdea95f8a1
+
 1. install PM2 globally
 > npm i -g pm2
 2. start your server (check the path of file your want to start correctly)
@@ -65,6 +66,9 @@ https://kknews.cc/zh-tw/other/gvzxoom.html
 - - -
 Mysql 版本編碼問題 (Server 端是 5.7.26，本機端是 8)
 https://blog.csdn.net/qq_27088383/article/details/53895033
-utf8mb4_unicode_ci 全部改成 utf8_general_ci
+utf8_0900_ai_ci 全部改成 utf8_general_ci
 utf8mb4 改成 utf8
+- - - 
+網路傳輸時需要把原本程式中認為是物件的東西轉成字串，原本程式中認為是字串的東西，會看情況加上跳脫字元
+https://training.pada-x.com/docs/article.jsp?key=javascript-json-introduction
 

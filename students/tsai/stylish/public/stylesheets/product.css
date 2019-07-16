@@ -22,8 +22,7 @@ label {
 .product_form {
     font-size: 1.2em;
     display: flex;
-    border: 1.5px steelblue dashed;
-    border-radius: .5em;
+
     width: 80%;
     align-items: center;
     flex-direction: column;
@@ -47,7 +46,14 @@ input {
     font-size: 1em;
     text-align: center;
 }
+.category_wrap {
+    color: #666;
+}
+.category {
+    width: 1.2em;
+    
 
+}
 .wrap {
     display: flex;
     flex-direction: column;
