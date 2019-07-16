@@ -13,6 +13,12 @@ USE stylish;DROP TABLE product;CREATE TABLE product (
     main_image VARCHAR (255),
     images JSON,
     PRIMARY KEY (id)
+);CREATE TABLE variant (
+    color_code VARCHAR(16),
+    name VARCHAR(16),
+    size VARCHAR(16),
+    stock INT,
+    product_id BIGINT UNSIGNED NOT NULL
 );-- insert data
 INSERT INTO
     product (
