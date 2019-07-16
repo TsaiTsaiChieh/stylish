@@ -7,10 +7,18 @@ http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/admin/product.html
 Most step follow by this link:
 </br>https://hackernoon.com/tutorial-creating-and-managing-a-node-js-server-on-aws-part-2-5fbdea95f8a1
 Product List API:
-show number set 10 in all: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/all
-default paging is 1: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/women
-show number set 1 in men: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/men?paging=1
-show number set 1 in accessories: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/accessories?paging=2
+show number set 5 in all: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/all</br>
+default paging is 1: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/women</br>
+show number set 1 in men: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/men?paging=1</br>
+show number set 1 in accessories: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/accessories?paging=2</br>
+Product Search API:</br>
+Examples(show number set 2):</br>
+http://localhost:3000/api/1/products/search?keyword=裝&paging=0</br>
+http://localhost:3000/api/1/products/search?keyword=裝&paging=1</br>
+http://localhost:3000/api/1/products/search?keyword=典</br>
+http://localhost:3000/api/1/products/search?keyword=襯衫</br>
+Product Details API:</br>
+http://localhost:3000/api/1/products/details?id=10
 - - - 
 1. install PM2 globally
 > npm i -g pm2

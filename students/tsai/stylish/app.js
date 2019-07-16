@@ -5,6 +5,7 @@ const body_parser = require('body-parser');
 
 app.use(body_parser.urlencoded({ extended: false }));
 app.use('/admin', express.static('public'));
+app.use('/uploads', express.static('uploads'));
 
 const mainRouters = require('./routes');
 app.use('/', mainRouters);

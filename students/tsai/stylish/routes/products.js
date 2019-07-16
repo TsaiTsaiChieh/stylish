@@ -24,12 +24,15 @@ router.get('/products', (req, res) => {
 router.get('/products/all', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
-    var show_num = 10;
-    // default paging = 1
+    var show_num = 5;
+    // default paging = 0
     if (!paging) {
-        paging = 1;
+        paging = 0;
     }
-    var start = (paging - 1) * show_num;
+    var start = paging * show_num;
+    // else start = (paging - 1) * show_num;
+    console.log(start);
+
     async.series([
         function (next) {
             db.query(`SELECT DISTINCT p.id, p.category, p.title, p.description, p.price, p.texture, p.wash, p.place, p.note, p.story, p.sizes,p.main_image, p.images
@@ -46,6 +49,11 @@ router.get('/products/all', (req, res) => {
             db.query(`SELECT color_code, size, stock, product_id FROM variant`, function (err3, result3) {
                 next(err3, result3);
             });
+        },
+        function (next) {
+            db.query(`SELECT COUNT(id) FROM product`, function (err4, result4) {
+                next(err4, result4);
+            });
         }
     ], function (errs, results) {
         if (errs) throw errs;    // errs = [err1, err2, err3]
@@ -83,7 +91,14 @@ router.get('/products/all', (req, res) => {
             };
             data_array.push(temp);
         }
-        var data = { paging, data: data_array };
+        var count = results[3][0]["COUNT(id)"];
+        start = paging * show_num;
+        if (show_num * (paging + 1) >= count) {
+            var data = { data: data_array };
+        }
+        else {
+            var data = { paging: (paging + 1), data: data_array };
+        }
         res.json(data)
     });
 });
@@ -93,11 +108,11 @@ router.get('/products/women', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
     var show_num = 1;
-    // default paging = 1
+    // default paging = 0
     if (!paging) {
-        paging = 1;
+        paging = 0;
     }
-    var start = (paging - 1) * show_num;
+    var start = paging * show_num;
     async.series([
         function (next) {
             db.query(`SELECT DISTINCT p.id, p.category, p.title, p.description, p.price, p.texture, p.wash, p.place, p.note, p.story, p.sizes,p.main_image, p.images
@@ -114,6 +129,11 @@ router.get('/products/women', (req, res) => {
             db.query(`SELECT color_code, size, stock, product_id FROM variant`, function (err3, result3) {
                 next(err3, result3);
             });
+        },
+        function (next) {
+            db.query(`SELECT COUNT(id) FROM product WHERE category='women'`, function (err4, result4) {
+                next(err4, result4);
+            });
         }
     ], function (errs, results) {
         if (errs) throw errs;    // errs = [err1, err2, err3]
@@ -151,8 +171,15 @@ router.get('/products/women', (req, res) => {
             };
             data_array.push(temp);
         }
-        var data = { paging, data: data_array };
-        res.json(data)
+        var count = results[3][0]["COUNT(id)"];
+        if (show_num * (paging + 1) >= count) {
+            var data = { data: data_array };
+        }
+        else {
+            var data = { paging: (paging + 1), data: data_array };
+        }
+        res.json(data);
+
     });
 });
 // Search products for men
@@ -160,11 +187,11 @@ router.get('/products/men', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
     var show_num = 1;
-    // default paging = 1
+    // default paging = 0
     if (!paging) {
-        paging = 1;
+        paging = 0;
     }
-    var start = (paging - 1) * show_num;
+    var start = paging * show_num;
     async.series([
         function (next) {
             db.query(`SELECT DISTINCT p.id, p.category, p.title, p.description, p.price, p.texture, p.wash, p.place, p.note, p.story, p.sizes,p.main_image, p.images
@@ -181,6 +208,11 @@ router.get('/products/men', (req, res) => {
             db.query(`SELECT color_code, size, stock, product_id FROM variant`, function (err3, result3) {
                 next(err3, result3);
             });
+        },
+        function (next) {
+            db.query(`SELECT COUNT(id) FROM product WHERE category='men'`, function (err4, result4) {
+                next(err4, result4);
+            });
         }
     ], function (errs, results) {
         if (errs) throw errs;    // errs = [err1, err2, err3]
@@ -218,8 +250,15 @@ router.get('/products/men', (req, res) => {
             };
             data_array.push(temp);
         }
-        var data = { paging, data: data_array };
-        res.json(data)
+        var count = results[3][0]["COUNT(id)"];
+        start = paging * show_num;
+        if (show_num * (paging + 1) >= count) {
+            var data = { data: data_array };
+        }
+        else {
+            var data = { paging: (paging + 1), data: data_array };
+        }
+        res.json(data);
     });
 });
 
@@ -229,11 +268,11 @@ router.get('/products/accessories', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
     var show_num = 1;
-    // default paging = 1
+    // default paging = 0
     if (!paging) {
-        paging = 1;
+        paging = 0;
     }
-    var start = (paging - 1) * show_num;
+    var start = paging * show_num;
     async.series([
         function (next) {
             db.query(`SELECT DISTINCT p.id, p.category, p.title, p.description, p.price, p.texture, p.wash, p.place, p.note, p.story, p.sizes,p.main_image, p.images
@@ -250,6 +289,11 @@ router.get('/products/accessories', (req, res) => {
             db.query(`SELECT color_code, size, stock, product_id FROM variant`, function (err3, result3) {
                 next(err3, result3);
             });
+        },
+        function (next) {
+            db.query(`SELECT COUNT(id) FROM product WHERE category='accessories'`, function (err4, result4) {
+                next(err4, result4);
+            });
         }
     ], function (errs, results) {
         if (errs) throw errs;    // errs = [err1, err2, err3]
@@ -287,8 +331,15 @@ router.get('/products/accessories', (req, res) => {
             };
             data_array.push(temp);
         }
-        var data = { paging, data: data_array };
-        res.json(data)
+        var count = results[3][0]["COUNT(id)"];
+        start = paging * show_num;
+        if (show_num * (paging + 1) >= count) {
+            var data = { data: data_array };
+        }
+        else {
+            var data = { paging: (paging + 1), data: data_array };
+        }
+        res.json(data);
     });
 });
 // for product search
@@ -299,9 +350,9 @@ router.get('/products/search', (req, res) => {
     var show_num = 2;
     // default paging = 1
     if (!paging) {
-        paging = 1;
+        paging = 0;
     }
-    var start = (paging - 1) * show_num;
+    var start = paging * show_num;
     async.series([
         function (next) {
             db.query(`SELECT DISTINCT p.id, p.category, p.title, p.description, p.price, p.texture, p.wash, p.place, p.note, p.story, p.sizes,p.main_image, p.images
@@ -318,6 +369,11 @@ router.get('/products/search', (req, res) => {
             db.query(`SELECT color_code, size, stock, product_id FROM variant`, function (err3, result3) {
                 next(err3, result3);
             });
+        },
+        function (next) {
+            db.query(`SELECT COUNT(id) FROM product WHERE title LIKE '%${keyword}%'`, function (err4, result4) {
+                next(err4, result4);
+            });
         }
     ], function (errs, results) {
         if (errs) throw errs;    // errs = [err1, err2, err3]
@@ -354,8 +410,15 @@ router.get('/products/search', (req, res) => {
             };
             data_array.push(temp);
         }
-        var data = { paging, data: data_array };
-        res.json(data)
+        var count = results[3][0]["COUNT(id)"];
+        start = paging * show_num;
+        if (show_num * (paging + 1) >= count) {
+            var data = { data: data_array };
+        }
+        else {
+            var data = { paging: (paging + 1), data: data_array };
+        }
+        res.json(data);
     });
 
 });
