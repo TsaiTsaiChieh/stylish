@@ -14,6 +14,44 @@ SET
     /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
     /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
     /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;--
+    -- Table structure for table `campaign`
+    --
+    DROP TABLE IF EXISTS `campaign`;
+    /*!40101 SET @saved_cs_client     = @@character_set_client */;
+SET
+    character_set_client = utf8;CREATE TABLE `campaign` (
+        `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `product_id` bigint(20) unsigned NOT NULL,
+        `picture` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+        `story` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+        PRIMARY KEY (`id`)
+    ) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
+    /*!40101 SET character_set_client = @saved_cs_client */;--
+    -- Dumping data for table `campaign`
+    --
+    LOCK TABLES `campaign` WRITE;
+    /*!40000 ALTER TABLE `campaign` DISABLE KEYS */;
+INSERT INTO
+    `campaign`
+VALUES
+    (
+        1,
+        1,
+        '0_1563331547605.jpg',
+        '於是 我也想要給你 一個那麼美好的自己。 不朽《與自己和好如初》'
+    ),(
+        2,
+        2,
+        '1_1563331585766.jpg',
+        '永遠 展現自信與專業 無法抵擋的男人魅力。 復古《再一次經典》'
+    ),(
+        3,
+        3,
+        '2_1563331623331.jpg',
+        '瞬間 在城市的角落 找到失落多時的記憶。 印象《都會故事集》'
+    ),(4, 4, '2_1563332551649.jpg', '光陰的故事');
+    /*!40000 ALTER TABLE `campaign` ENABLE KEYS */;UNLOCK TABLES;--
+
     -- Table structure for table `product`
     --
     DROP TABLE IF EXISTS `product`;
@@ -21,20 +59,21 @@ SET
 SET
     character_set_client = utf8;CREATE TABLE `product` (
         `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-        `category` varchar(16) NOT NULL,
-        `title` varchar(255) NOT NULL,
-        `description` varchar(255) NOT NULL,
+        `category` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
+        `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+        `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
         `price` int(11) NOT NULL,
-        `texture` varchar(255) DEFAULT NULL,
-        `wash` varchar(255) DEFAULT NULL,
-        `place` varchar(255) DEFAULT NULL,
-        `note` varchar(255) DEFAULT NULL,
-        `story` varchar(255) DEFAULT NULL,
+        `texture` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+        `wash` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+        `place` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+        `note` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+        `story` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
         `sizes` json DEFAULT NULL,
-        `main_image` varchar(255) DEFAULT NULL,
+        `main_image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
         `images` json DEFAULT NULL,
         PRIMARY KEY (`id`)
-    ) ENGINE = InnoDB AUTO_INCREMENT = 11 DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
+    ) ENGINE = InnoDB AUTO_INCREMENT = 11 DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
+
     /*!40101 SET character_set_client = @saved_cs_client */;--
     -- Dumping data for table `product`
     --
@@ -191,12 +230,14 @@ VALUES
     /*!40101 SET @saved_cs_client     = @@character_set_client */;
 SET
     character_set_client = utf8;CREATE TABLE `variant` (
-        `color_code` varchar(16) DEFAULT NULL,
-        `name` varchar(16) DEFAULT NULL,
-        `size` varchar(16) DEFAULT NULL,
+
+        `color_code` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
+        `name` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
+        `size` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
         `stock` int(11) DEFAULT NULL,
         `product_id` bigint(20) unsigned NOT NULL
-    ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
+
     /*!40101 SET character_set_client = @saved_cs_client */;--
     -- Dumping data for table `variant`
     --
@@ -214,4 +255,7 @@ VALUES
     /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
     /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
     /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-    /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;-- Dump completed on 2019-07-16 16:26:39
+
+    /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;-- Dump completed on 2019-07-17 13:50:19
+
+

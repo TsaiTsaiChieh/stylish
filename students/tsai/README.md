@@ -14,13 +14,17 @@ show number set 1 in men: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com
 show number set 1 in accessories: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/accessories?paging=2</br>
 Product Search API:</br>
 Examples(show number set 2):</br>
-http://localhost:3000/api/1/products/search?keyword=裝&paging=0</br>
-http://localhost:3000/api/1/products/search?keyword=裝&paging=1</br>
-http://localhost:3000/api/1/products/search?keyword=典</br>
-http://localhost:3000/api/1/products/search?keyword=襯衫</br>
+http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/search?keyword=裝&paging=0</br>
+http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/search?keyword=裝&paging=1</br>
+http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/search?keyword=典</br>
+http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/search?keyword=襯衫</br>
 Product Details API:</br>
-http://localhost:3000/api/1/products/details?id=10
-- - - 
+http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/details?id=10
+- - -
+Build Marketing Campaigns API:</br>
+http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/marketing/campaigns
+- - -
+
 1. install PM2 globally
 > npm i -g pm2
 2. start your server (check the path of file your want to start correctly)

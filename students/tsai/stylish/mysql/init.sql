@@ -19,6 +19,12 @@ USE stylish;DROP TABLE product;CREATE TABLE product (
     size VARCHAR(16),
     stock INT,
     product_id BIGINT UNSIGNED NOT NULL
+);CREATE TABLE campaign (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    product_id BIGINT UNSIGNED NOT NULL,
+    picture VARCHAR (255),
+    story VARCHAR (255),
+    PRIMARY KEY (id)
 );-- insert data
 INSERT INTO
     product (
