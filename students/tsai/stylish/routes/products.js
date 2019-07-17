@@ -1,21 +1,7 @@
 const express = require('express');
-const mysql = require('mysql');
 const router = express.Router();
 var async = require("async"); //npm install --save async
-// database
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "0000",
-    database: "stylish"
-});
-
-db.connect(function (err) {
-    if (err) {
-        throw err;
-    }
-    console.log("stylish in products connected!");
-});
+const db = require('../public/js/db');
 
 router.get('/products', (req, res) => {
     res.send('products');
@@ -30,8 +16,6 @@ router.get('/products/all', (req, res) => {
         paging = 0;
     }
     var start = paging * show_num;
-    // else start = (paging - 1) * show_num;
-    console.log(start);
 
     async.series([
         function (next) {

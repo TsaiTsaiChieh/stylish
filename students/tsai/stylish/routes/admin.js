@@ -1,22 +1,8 @@
 const express = require('express');
-const mysql = require('mysql'); // npm install mysql
 const router = express.Router();
 const multer = require('multer'); // npm install --save multer
+const db = require('../public/js/db');
 
-// database
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "0000",
-    database: "stylish"
-});
-
-db.connect(function (err) {
-    if (err) {
-        throw err;
-    }
-    console.log("stylish in admin connected!");
-});
 
 router.get('/admin', (req, res) => {
     res.send('admin');
@@ -30,12 +16,10 @@ var storage = multer.diskStorage({
     },
     // 給上傳文件重新命名
     filename: function (req, files, cb) {
-
-
         files.originalname = files.originalname.replace('.jpg', '') + '_' + Date.now() + '.jpg';
         cb(null, files.originalname);
     }
-})
+});
 // Build Product Management Page
 var upload = multer({ storage: storage }); // 設定添加到 multer 對象
 var imageLoad = upload.fields([{ name: 'products_main_image', maxCount: 1 }, { name: 'products_images', maxCount: 3 }]);
@@ -82,47 +66,38 @@ router.post('/admin/product.html', imageLoad, (req, res) => {
                 if (err) throw err;
                 else console.log('insert variant:', result);
             });
-
-
         }
     });
-    // files format
-    // for (let i = 0; i < req.files.products_images.length; i++) {
-    //     let tmp = req.files.products_images[i].originalname;
-    //     images.push(tmp);
-    // }
-    // images = JSON.stringify(images);
+    res.send('Add a product successfully.');
+});
 
-    // let products = { category, title, description, price, texture, wash, place, note, story, sizes, main_image, images };
-    // let sql_insert_product = `INSERT INTO product SET ?`;
-
-    // db.query(sql_insert_product, products, (err, result) => {
-    //     if (err) throw err;
-    //     else console.log(result);
-    //     product_id = result.insertId;
-    // });
-
-    // // variants format
-    // for (let i = 0; i < variants_code.length; i++) {
-    //     let search_color = `SELECT color.code FROM color WHERE color.code = '${variants_code[i]}'`;
-    //     db.query(search_color, (err, result) => {
-    //         if (err) throw err;
-    //         else console.log('search_color_code:', result);
-    //         // 搜尋顏色 id 後，加入 size 和 stock 資訊
-    //         let insert_variant = `INSERT INTO variant SET ?`;
-    //         console.log('printf:', result[0].code);
-
-    //         // result[0].id print the search result id
-    //         let variants = { color_code: result[0].code, size: variants_size[i], stock: variants_stock[i], product_id };
-    //         db.query(insert_variant, variants, (err, result) => {
-    //             if (err) throw err;
-    //             else console.log('insert variant:', result);
-    //         });
-
-    //     });
-    // }
-    res.send('Add product successfully.');
-
+// Build Marketing Campaigns Management Page
+// Set Campaigns storage
+var storage_campaigns = multer.diskStorage({
+    // 設定上傳後文件路徑，campaigns 資料夾會自動建立
+    destination: function (req, file, cb) {
+        cb(null, 'campaigns');
+    },
+    // 給上傳文件重新命名
+    filename: function (req, file, cb) {
+        file.originalname = file.originalname.replace('.jpg', '') + '_' + Date.now() + '.jpg';
+        cb(null, file.originalname);
+    }
+});
+var campaigns = multer({ storage: storage_campaigns }); // 設定添加到 multer 對象
+// var campaignLoad = campaigns.fields([{ name: 'picture', maxCount: 1 }]);
+router.post('/admin/campaign.html', campaigns.single('picture'), (req, res) => {
+    const { product_id } = req.body;
+    // Picture URL is http://localhost/campaigns/filename.jpg
+    const picture = req.file.filename;
+    const { story } = req.body;
+    let campaign = { product_id, picture, story }; // campaign insert data
+    let sql_insert_campaign = `INSERT INTO campaign SET ?`;
+    db.query(sql_insert_campaign, campaign, (err, result) => {
+        if (err) throw err;
+        else console.log('insert campaign:', result);
+    });
+    res.send('Add a campaign successfully.');
 
 });
 module.exports = router;

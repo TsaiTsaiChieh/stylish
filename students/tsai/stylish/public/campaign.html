@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Campaign</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin-top: 3em;
+            margin-left: 3em;
+        }
+
+        h2 {
+            margin-bottom: .8em;
+        }
+
+        .campaign_form {
+            display: flex;
+            flex-direction: column;
+            line-height: 2;
+        }
+
+        button {
+            font-size: 1.2em;
+            width: 10em;
+            margin: 1em 0;
+            padding: .3em 0;
+            /* border-radius: .5em; */
+            color: #fff;
+            background: #000;
+            border: none;
+        }
+
+        label {
+            font-size: 1.2em;
+            color: slategrey;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            line-height: 1.5em;
+            width: 25em;
+            font-size: 1.2em;
+            text-indent: .2em;
+        }
+
+        .picture {
+            text-indent: 0;
+        }
+
+        textarea {
+            height: 10em;
+            padding: .2em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="campaign">
+        <h2>Create a New Campaign</h2>
+        <form class="campaign_form" action="/admin/campaign.html" method="POST" enctype="multipart/form-data">
+            <label>Product ID</label><input type=" text" name='product_id'>
+            <label>Picture</label><input type="file" accept=".jpg" name='picture' class="picture">
+            <label>Story</label><textarea name='story'></textarea>
+            <button type="submit">Add campaign</button>
+        </form>
+    </div>
+</body>
+
+</html>
