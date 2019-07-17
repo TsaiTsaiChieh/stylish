@@ -324,6 +324,7 @@ router.get('/accessories', (req, res) => {
             var data = { paging: (paging + 1), data: data_array };
         }
         res.json(data);
+
     });
 });
 // for product search
@@ -465,7 +466,8 @@ router.get('/details', (req, res) => {
             data_array.push(temp);
         }
         var data = { data: data_array };
-        res.json(data)
+        res.json(data);
+
     });
 
 });

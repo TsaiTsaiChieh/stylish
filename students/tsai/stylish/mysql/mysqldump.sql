@@ -51,6 +51,7 @@ VALUES
         '瞬間 在城市的角落 找到失落多時的記憶。 印象《都會故事集》'
     ),(4, 4, '2_1563332551649.jpg', '光陰的故事');
     /*!40000 ALTER TABLE `campaign` ENABLE KEYS */;UNLOCK TABLES;--
+
     -- Table structure for table `product`
     --
     DROP TABLE IF EXISTS `product`;
@@ -72,6 +73,7 @@ SET
         `images` json DEFAULT NULL,
         PRIMARY KEY (`id`)
     ) ENGINE = InnoDB AUTO_INCREMENT = 11 DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
+
     /*!40101 SET character_set_client = @saved_cs_client */;--
     -- Dumping data for table `product`
     --
@@ -228,12 +230,14 @@ VALUES
     /*!40101 SET @saved_cs_client     = @@character_set_client */;
 SET
     character_set_client = utf8;CREATE TABLE `variant` (
+
         `color_code` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
         `name` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
         `size` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
         `stock` int(11) DEFAULT NULL,
         `product_id` bigint(20) unsigned NOT NULL
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
+
     /*!40101 SET character_set_client = @saved_cs_client */;--
     -- Dumping data for table `variant`
     --
@@ -251,4 +255,7 @@ VALUES
     /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
     /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
     /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
     /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;-- Dump completed on 2019-07-17 13:50:19
+
+
