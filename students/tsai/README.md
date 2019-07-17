@@ -7,6 +7,20 @@ http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/admin/product.html
 Most step follow by this link:
 </br>https://hackernoon.com/tutorial-creating-and-managing-a-node-js-server-on-aws-part-2-5fbdea95f8a1
 
+Product List API:
+show number set 5 in all: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/all</br>
+default paging is 1: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/women</br>
+show number set 1 in men: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/men?paging=1</br>
+show number set 1 in accessories: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/accessories?paging=2</br>
+Product Search API:</br>
+Examples(show number set 2):</br>
+http://localhost:3000/api/1/products/search?keyword=裝&paging=0</br>
+http://localhost:3000/api/1/products/search?keyword=裝&paging=1</br>
+http://localhost:3000/api/1/products/search?keyword=典</br>
+http://localhost:3000/api/1/products/search?keyword=襯衫</br>
+Product Details API:</br>
+http://localhost:3000/api/1/products/details?id=10
+- - - 
 1. install PM2 globally
 > npm i -g pm2
 2. start your server (check the path of file your want to start correctly)
@@ -31,7 +45,7 @@ use stylish; // 要選 Table
 CREATE TABLE product(id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, title VARCHAR(255) NOT NULL, PRIMARY KEY(id));
 desc product; // 看 product 欄位狀況
 
-sudo mysqldump --databases stylish > dump.sql // in EC2
+mysql -u root -p stylish < mysqldump.sql  // in EC2
 mysqlcp stylish > dump.sql // in local
 
 - - -
@@ -66,9 +80,11 @@ https://kknews.cc/zh-tw/other/gvzxoom.html
 - - -
 Mysql 版本編碼問題 (Server 端是 5.7.26，本機端是 8)
 https://blog.csdn.net/qq_27088383/article/details/53895033
-utf8_0900_ai_ci 全部改成 utf8_general_ci
-utf8mb4 改成 utf8
+
+utf8mb4_unicode_ci 全部改成 utf8_general_ci
+</br>utf8mb4 改成 utf8
 - - - 
 網路傳輸時需要把原本程式中認為是物件的東西轉成字串，原本程式中認為是字串的東西，會看情況加上跳脫字元
 https://training.pada-x.com/docs/article.jsp?key=javascript-json-introduction
-
+- - -
+程式上傳到 AWS 後，記得 AWS 的 package.json 也要和本機端一致
