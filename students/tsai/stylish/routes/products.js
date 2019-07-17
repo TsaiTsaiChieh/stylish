@@ -3,11 +3,11 @@ const router = express.Router();
 var async = require("async"); //npm install --save async
 const db = require('../public/js/db');
 
-router.get('/products', (req, res) => {
+router.get('/', (req, res) => {
     res.send('products');
 });
 // Search products for all
-router.get('/products/all', (req, res) => {
+router.get('/all', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
     var show_num = 5;
@@ -88,7 +88,7 @@ router.get('/products/all', (req, res) => {
 });
 
 // Search products for women
-router.get('/products/women', (req, res) => {
+router.get('/women', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
     var show_num = 1;
@@ -167,7 +167,7 @@ router.get('/products/women', (req, res) => {
     });
 });
 // Search products for men
-router.get('/products/men', (req, res) => {
+router.get('/men', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
     var show_num = 1;
@@ -248,7 +248,7 @@ router.get('/products/men', (req, res) => {
 
 
 // Search products for accessories
-router.get('/products/accessories', (req, res) => {
+router.get('/accessories', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
     var show_num = 1;
@@ -327,7 +327,7 @@ router.get('/products/accessories', (req, res) => {
     });
 });
 // for product search
-router.get('/products/search', (req, res) => {
+router.get('/search', (req, res) => {
     const { keyword } = req.query;
     var { paging } = req.query;
     paging = parseInt(paging);
@@ -408,7 +408,7 @@ router.get('/products/search', (req, res) => {
 });
 
 // for product details
-router.get('/products/details', (req, res) => {
+router.get('/details', (req, res) => {
     const { id } = req.query;
 
     async.series([

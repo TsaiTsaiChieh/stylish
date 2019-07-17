@@ -13,9 +13,9 @@ app.use('/', mainRouters);
 const adminRouters = require('./routes/admin');
 app.use('/', adminRouters);
 const productsRouters = require('./routes/products');
-app.use('/api/1/', productsRouters);
+app.use('/api/1/products', productsRouters);
 const marketingRouters = require('./routes/marketing');
-app.use('/api/1/', marketingRouters);
+app.use('/api/1/marketing', marketingRouters);
 
 app.get('/', (req, res) => {
     res.send('Tsai, Tsai-Chieh');

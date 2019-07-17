@@ -3,7 +3,6 @@ const router = express.Router();
 const multer = require('multer'); // npm install --save multer
 const db = require('../public/js/db');
 
-
 router.get('/admin', (req, res) => {
     res.send('admin');
 });

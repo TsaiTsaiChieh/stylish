@@ -2,6 +2,8 @@ const express = require('express');
 const mysql = require('mysql'); // npm install mysql
 const router = express.Router();
 
+
+
 // const db = mysql.createConnection({
 //     host: "localhost",
 //     user: "root",
