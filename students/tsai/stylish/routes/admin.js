@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer'); // npm install --save multer
 const db = require('../public/js/db');
+const crypto = require('crypto');
+const async = require("async"); //npm install --save async
 
 router.get('/admin', (req, res) => {
     res.send('admin');
@@ -99,4 +101,116 @@ router.post('/admin/campaign.html', campaigns.single('picture'), (req, res) => {
     res.send('Add a campaign successfully.');
 
 });
+// Build User Management Page
+// Set User storage
+var storage_users = multer.diskStorage({
+    // 設定上傳後文件路徑，campaigns 資料夾會自動建立
+    destination: function (req, file, cb) {
+        cb(null, 'users');
+    },
+    // 給上傳文件重新命名
+    filename: function (req, file, cb) {
+        file.originalname = file.originalname.replace('.jpg', '') + '_' + Date.now() + '.jpg';
+
+        cb(null, file.originalname);
+    }
+});
+var users = multer({ storage: storage_users }); // 設定添加到 multer 對象
+
+router.post('/admin/signup', users.single('picture'), (req, res) => {
+    const provider = 'native';
+    const { name } = req.body;
+    const email = req.body.email.replace(/\s+/g, ""); // 過濾掉電子郵件的空格
+
+    const { password } = req.body;
+    const picture = req.file.filename;
+    var user = { provider, name, email, password, picture };
+    var string_data = name + email + Date.now();
+    // 使用 let 才會在每次調用 digest 都創建個新 crypto 實例 
+    let access_token = crypto.createHash('sha256').update(string_data, 'utf8').digest('hex');
+    const access_expired = 30;
+    // let token = {access_token,access_expired};
+    async.waterfall([
+        // 檢查 user table 有無此註冊資訊
+        function (next) {
+            db.query(`SELECT id FROM user WHERE '${email}' = user.email`, (err1, result1) => {
+                next(err1, result1);
+            });
+        },
+        function (rst1, next) {
+            if (rst1.length != 0) { // 若沒有此註冊資訊就插入此 user
+                console.log('有此 user');
+                const err = new Error('Invalid request body.');
+                err.status = 404;
+                res.status(err.status);
+                res.send({ error: "Invalid request body." });
+            } else {
+                console.log('沒有此 user');
+                db.query(`INSERT INTO user SET ?`, user, (err2, result2) => {
+                    next(err2, rst1, result2);
+                });
+            }
+        },
+        // 若 user 成功註冊則 insert token 
+        function (rst1, rst2, next) {
+            const user_id = rst2.insertId;
+            let token = { user_id, access_token, access_expired };
+            db.query(`INSERT INTO token SET ?`, token, (err3, result3) => {
+                next(err3, rst1, rst2, result3);
+            });
+        },
+        // 搜尋 user_id
+        function (rst1, rst2, rst3, next) {
+            db.query(`SELECT user_id FROM token LEFT JOIN user ON token.user_id = user.id WHERE user.id=${rst2.insertId}`, (err4, result4) => {
+                next(err4, result4);
+            });
+        }
+    ], function (err, result) {
+        if (err) throw err;
+        //show json
+        user_res = { id: result[0].user_id, provider, name, email, picture };
+        var data = { data: { access_token, access_expired, user_res } };
+        res.json(data);
+    });
+});
+
+router.post('/admin/signin', (req, res) => {
+    const { provider } = req.body;
+    const { email } = req.body;
+    const { password } = req.body;
+
+    async.waterfall([
+        function (next) {
+            db.query(`SELECT u.*, t.token FROM user AS u LEFT JOIN token as t ON u.id = t.user_id WHERE u.provider = '${provider}' AND u.email = '${email}' AND u.password ='${password}'`, (err1, result1) => {
+                next(err1, result1);
+            });
+        }
+    ], function (err, result) {
+        if (err) throw err;
+        // else console.log(result);
+        if (result.length != 0) {
+            res.json({
+                data: {
+                    access_token: result[0].token, access_expired: 3600,
+                    user: {
+                        id: result[0].id,
+                        provider: result[0].provider,
+                        name: result[0].name,
+                        email: result[0].email,
+                        picture: result[0].picture
+                    }
+                }
+            });
+        }
+        else {
+            const err = new Error('Invalid token.');
+            err.status = 404;
+            res.status(err.status);
+            res.send({ error: "Invalid token." });
+        }
+
+    });
+});
+
+
 module.exports = router;

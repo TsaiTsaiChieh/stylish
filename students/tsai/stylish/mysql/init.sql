@@ -25,72 +25,24 @@ USE stylish;DROP TABLE product;CREATE TABLE product (
     picture VARCHAR (255),
     story VARCHAR (255),
     PRIMARY KEY (id)
+);CREATE TABLE user (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    provider VARCHAR (255) NOT NULL,
+    name VARCHAR (127),
+    email VARCHAR (127),
+    password VARCHAR (31),
+    picture VARCHAR (255),
+    PRIMARY KEY (id)
+);CREATE TABLE token (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    token VARCHAR (127) NOT NULL,
+    user_id BIGINT UNSIGNED NOT NULL,
+    PRIMARY KEY (id)
 );-- insert data
 INSERT INTO
-    product (
-        id,
-        category,
-        title,
-        description,
-        price,
-        texture,
-        wash,
-        place,
-        note,
-        story,
-        colors,
-        sizes,
-        variants,
-        main_image,
-        images
-    ) VALUE (
-        '1',
-        'women',
-        '厚實毛呢格子外套',
-        '高抗寒素材選用，保暖也時尚有型',
-        2200,
-        '棉、聚脂纖維',
-        '手洗（水溫40度)',
-        '韓國',
-        '實品顏色以單品照為主',
-        '你絕對不能錯過的超值商品',
-        JSON_ARRAY(
-            JSON_OBJECT(
-                'code',
-                '334455',
-                'name',
-                '深藍'
-            ),
-            JSON_OBJECT(
-                'code',
-                'ffffff',
-                'name',
-                '白色'
-            )
-        ),
-        JSON_ARRAY('S', 'M'),
-        JSON_ARRAY(
-            JSON_OBJECT(
-                'color_code',
-                '334455',
-                'size',
-                'S',
-                'stock',
-                5
-            ),
-            JSON_OBJECT(
-                'color_code',
-                'FFFFFF',
-                'size',
-                'M',
-                'stock',
-                0
-            )
-        ),
-        'https://stylish.com/main.jpg',
-        JSON_ARRAY(
-            'https://stylish.com/0.jpg',
-            'https://stylish.com/1.jpg',
-            'https://stylish.com/2.jpg'
-        )
+    user (provider, name, email, picture) VALUE (
+        'Native',
+        '蔡采潔',
+        'd0177381@gmail.com',
+        'test.jpg'
     );

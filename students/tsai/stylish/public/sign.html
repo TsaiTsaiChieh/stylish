@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin-top: 2em;
+            margin-left: 3em;
+
+        }
+
+        h2 {
+            margin-bottom: .8em;
+
+        }
+
+        .signup_form,
+        .signin_form {
+            display: flex;
+            flex-direction: column;
+            line-height: 2;
+        }
+
+        button {
+            font-size: 1.2em;
+            width: 10em;
+            margin: 1em 0;
+            padding: .3em 0;
+            /* border-radius: .5em; */
+            color: #fff;
+            background: #000;
+            border: none;
+        }
+
+        label {
+            font-size: 1.2em;
+            color: slategrey;
+            font-weight: bold;
+        }
+
+        input {
+            line-height: 1.5em;
+            width: 25em;
+            font-size: 1.2em;
+            text-indent: .2em;
+        }
+
+        .category {
+            width: 1.2em;
+
+        }
+
+        .provider_wrap {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="sign">
+        <h2>Sign Up</h2>
+        <form class="signup_form" action="/admin/signup" method="POST" enctype="multipart/form-data">
+            <label>Name</label><input type="text" name='name'>
+            <label>Email</label><input type="text" name='email'>
+            <label>Password</label><input type="password" name='password'>
+            <label>Picture</label><input type="file" name='picture'>
+            <button type="submit">Sign up</button>
+        </form>
+        <h2>Sign In</h2>
+        <form class="signin_form" action="/admin/signin" method="POST">
+            <div class="provider_wrap"><label>Provider</label>
+                <input type="radio" value='Native' name='provider' class="category" checked>Native
+                <input type="radio" value='Facebook' name='provider' class="category">Facebook
+            </div>
+            <label>Email</label><input type="text" name='email'>
+            <label>Password</label><input type="text" name='password'>
+            <button type="submit">Sign in</button>
+        </form>
+    </div>
+</body>
+
+</html>
