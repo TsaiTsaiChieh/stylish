@@ -7,7 +7,7 @@ app.use(body_parser.urlencoded({ extended: false }));
 app.use('/admin', express.static('public'));
 app.use('/uploads', express.static('uploads'));
 app.use('/campaigns', express.static('campaigns'));
-
+app.use('/users', express.static('users'));
 // const mainRouters = require('./routes');
 // app.use('/', mainRouters);
 const adminRouters = require('./routes/admin');
