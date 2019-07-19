@@ -72,6 +72,8 @@ yum clean all
 yum install mysql-community-server
 修改 mysql 密碼：
 mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY '0000';
+關閉 MySQL 安全模式
+SET SQL_SAFE_UPDATES=0
 - - -
 mysql JSON 語法：
 https://dev.mysql.com/doc/refman/8.0/en/json.html
@@ -90,3 +92,8 @@ utf8mb4_unicode_ci 全部改成 utf8_general_ci
 https://training.pada-x.com/docs/article.jsp?key=javascript-json-introduction
 - - -
 程式上傳到 AWS 後，記得 AWS 的 package.json 也要和本機端一致
+- - - 
+Sign up 時，檢查有無重複註冊後，若無直接給一個新 token，有則 error message.
+Sign in 時，檢查帳號密碼有無正確，若正確直接給一個新的 token，錯誤則 error message.
+user/profile 先檢查 header 的 token 有無符合哪個 user，在檢查有無過期，過期則 erro message: authorization is required.，無過期則 show user 的 profile
+

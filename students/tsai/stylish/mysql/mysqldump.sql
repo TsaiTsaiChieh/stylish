@@ -87,8 +87,7 @@ CREATE TABLE `token` (
   `user_id` bigint(20) unsigned NOT NULL,
   `access_token` varchar(127) NOT NULL,
   `access_expired` int(11) NOT NULL,
-  `created` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`user_id`)
+  `created` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -98,7 +97,7 @@ CREATE TABLE `token` (
 
 LOCK TABLES `token` WRITE;
 /*!40000 ALTER TABLE `token` DISABLE KEYS */;
-INSERT INTO `token` VALUES (1,'e6f18b36f28d8d3d8fe79d05ca8ecb20583dd26fb9e338b099a60f3af7f8bac7',30,'2019-07-18 17:18:00'),(2,'da3d0b2b57d063d9bd9700215ea136d0a085fdb324474f9bdf7fd1b67069bd72',30,'2019-07-18 17:52:06');
+INSERT INTO `token` VALUES (1,'e2c235a554aa2726ee6b2860c92c57f0bf9df3b53a1048039de465940206caac',60,'2019-07-19 10:03:25'),(1,'d3e558c4b241231c1035ea229be2e1f4441a32395adb3e2d0d3737b18e509968',3600,'2019-07-19 10:03:54'),(2,'66d26e6654ac47f8ee5f6735cef517c520954c69f5fed0985fd1b9240b021411',3600,'2019-07-19 10:05:23'),(2,'e1d560b5f73198ca93256f8a741f4136df22ce3ccaa9ee55ae26bfb2b259c7d9',3600,'2019-07-19 10:06:07'),(3,'b32ca23205c1b85982ffbf4acb4cd61092770ed3fc17d14a700be77c5ec5c77d',3600,'2019-07-19 10:06:26'),(2,'24b9beff6a67341e9877b633dc82fc5ce1b33029be4c14fb4c35cdbb41debb30',3600,'2019-07-19 10:07:14');
 /*!40000 ALTER TABLE `token` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,7 +116,7 @@ CREATE TABLE `user` (
   `password` varchar(31) DEFAULT NULL,
   `picture` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +125,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'native','蔡采潔','d0177381@gmail.com','0000','2_1563441479891.jpg'),(2,'native','蔡采潔','jecica196@gmail.com','0000','2_1563443525940.jpg');
+INSERT INTO `user` VALUES (1,'native','蔡采潔','d0177381@gmail.com','0000','2_1563501804930.jpg'),(2,'native','蔡采潔','jecica196@gmail.com','0000','0_1563501922987.jpg'),(3,'native','蔡采潔','test123@gmail.com','0000','4_1563501986419.jpg');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,4 +164,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-18 19:08:02
+-- Dump completed on 2019-07-19 10:15:29

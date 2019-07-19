@@ -128,7 +128,7 @@ router.post('/admin/signup', users.single('picture'), (req, res) => {
     var string_data = name + email + Date.now();
     // 使用 let 才會在每次調用 digest 都創建個新 crypto 實例 
     let access_token = crypto.createHash('sha256').update(string_data, 'utf8').digest('hex');
-    const access_expired = 30;
+    const access_expired = 3600;
     // let token = {access_token,access_expired};
     async.waterfall([
         // 檢查 user table 有無此註冊資訊
@@ -179,36 +179,40 @@ router.post('/admin/signin', (req, res) => {
     const { email } = req.body;
     const { password } = req.body;
 
+
     async.waterfall([
         function (next) {
-            db.query(`SELECT u.*, t.token FROM user AS u LEFT JOIN token as t ON u.id = t.user_id WHERE u.provider = '${provider}' AND u.email = '${email}' AND u.password ='${password}'`, (err1, result1) => {
+            // db.query(`SELECT u.*, t.token FROM user AS u LEFT JOIN token as t ON u.id = t.user_id WHERE u.provider = '${provider}' AND u.email = '${email}' AND u.password ='${password}'`, (err1, result1) => {
+            db.query(`SELECT u.* FROM user AS u WHERE u.provider = '${provider}' AND u.email = '${email}' AND u.password ='${password}'`, (err1, result1) => {
                 next(err1, result1);
             });
+        },
+        function (rst1, next) {
+            if (rst1.length == 0) { // 若沒有此 user
+                const err = new Error('Invalid token.');
+                err.status = 404;
+                res.status(err.status);
+                res.send({ error: "Invalid token." });
+            } else { // 若有此 user 再新增 token 並 show 出資訊
+                var string_data = email + password + Date.now();
+                let access_token = crypto.createHash('sha256').update(string_data, 'utf8').digest('hex');
+                const access_expired = 3600;
+
+                res.json({
+                    provider: rst1[0].provider,
+                    name: rst1[0].name,
+                    email: rst1[0].email,
+                });
+                let sql_insert_token = { user_id: rst1[0].id, access_token, access_expired };
+                db.query(`INSERT INTO token SET?`, sql_insert_token, (err2, result2) => {
+                    next(err2, result2);
+                });
+            }
+
         }
     ], function (err, result) {
         if (err) throw err;
         // else console.log(result);
-        if (result.length != 0) {
-            res.json({
-                data: {
-                    access_token: result[0].token, access_expired: 3600,
-                    user: {
-                        id: result[0].id,
-                        provider: result[0].provider,
-                        name: result[0].name,
-                        email: result[0].email,
-                        picture: result[0].picture
-                    }
-                }
-            });
-        }
-        else {
-            const err = new Error('Invalid token.');
-            err.status = 404;
-            res.status(err.status);
-            res.send({ error: "Invalid token." });
-        }
-
     });
 });
 
