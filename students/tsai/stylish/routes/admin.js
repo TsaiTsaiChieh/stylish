@@ -199,9 +199,16 @@ router.post('/admin/signin', (req, res) => {
                 const access_expired = 3600;
 
                 res.json({
-                    provider: rst1[0].provider,
-                    name: rst1[0].name,
-                    email: rst1[0].email,
+                    data: {
+                        access_token, access_expired,
+                        user: {
+                            id: rst1[0].id,
+                            provider: rst1[0].provider,
+                            name: rst1[0].name,
+                            email: rst1[0].email,
+                            picture: rst1[0].picture
+                        }
+                    }
                 });
                 let sql_insert_token = { user_id: rst1[0].id, access_token, access_expired };
                 db.query(`INSERT INTO token SET?`, sql_insert_token, (err2, result2) => {

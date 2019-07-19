@@ -27,7 +27,7 @@ http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/marketing/campaigns
 Build User Html</br>
 http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/admin/sign.html</br>
 Build User Profile APIs</br>
-http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/user/profile
+http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/user/profile
 
 - - -
 1. install PM2 globally
