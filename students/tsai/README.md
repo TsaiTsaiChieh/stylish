@@ -6,6 +6,7 @@ http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/admin/product.html
 </br>Run Web Server in the Background
 Most step follow by this link:
 </br>https://hackernoon.com/tutorial-creating-and-managing-a-node-js-server-on-aws-part-2-5fbdea95f8a1
+
 Product List API:
 show number set 5 in all: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/all</br>
 default paging is 1: http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/women</br>
@@ -90,6 +91,7 @@ https://kknews.cc/zh-tw/other/gvzxoom.html
 - - -
 Mysql 版本編碼問題 (Server 端是 5.7.26，本機端是 8)
 https://blog.csdn.net/qq_27088383/article/details/53895033
+
 utf8mb4_unicode_ci 全部改成 utf8_general_ci
 </br>utf8mb4 改成 utf8
 - - - 
