@@ -23,7 +23,12 @@ http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/products/details?id
 Build Marketing Campaigns API:</br>
 http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/api/1/marketing/campaigns
 - - -
+Build User Html</br>
+http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/admin/sign.html</br>
+Build User Profile APIs</br>
+http://ec2-3-14-88-131.us-east-2.compute.amazonaws.com/user/profile
 
+- - -
 1. install PM2 globally
 > npm i -g pm2
 2. start your server (check the path of file your want to start correctly)
@@ -96,4 +101,11 @@ https://training.pada-x.com/docs/article.jsp?key=javascript-json-introduction
 Sign up 時，檢查有無重複註冊後，若無直接給一個新 token，有則 error message.
 Sign in 時，檢查帳號密碼有無正確，若正確直接給一個新的 token，錯誤則 error message.
 user/profile 先檢查 header 的 token 有無符合哪個 user，在檢查有無過期，過期則 erro message: authorization is required.，無過期則 show user 的 profile
+- - -
+in EC2:
+cd mygit/Web-Backend-2019-Summer/students/tsai/stylish/mysql
+git pull origin branch
+mysql -u root -p stylish < mysqldump.sql 
+pm2 delete app
+pm2 start ../app.js
 
