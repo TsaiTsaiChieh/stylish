@@ -5,8 +5,7 @@ const db = require('../public/js/db');
 const crypto = require('crypto');
 const async = require("async"); //npm install --save async
 const body_parser = require('body-parser');
-
-// const mysql = require('mysql'); // npm install mysql
+const request = require('request'); // npm install request
 
 router.use(body_parser.urlencoded({ extended: false }));
 router.use(body_parser.json());
@@ -141,14 +140,16 @@ router.post('/admin/signup', (req, res) => {
             });
         },
         function (rst1, next) {
-            if (rst1.length != 0) { // 若沒有此註冊資訊就插入此 user
+            if (rst1.length != 0) {
                 console.log('有此 user');
                 const err = new Error('Invalid request body.');
                 err.status = 404;
                 res.status(err.status);
                 res.send({ error: "Invalid request body." });
+
+
             } else {
-                console.log('沒有此 user');
+                console.log('沒有此 user'); // 若沒有此註冊資訊就插入此 user
                 db.query(`INSERT INTO user SET ?`, user, (err2, result2) => {
                     next(err2, rst1, result2);
                 });
@@ -179,53 +180,128 @@ router.post('/admin/signup', (req, res) => {
 
 router.post('/admin/signin', (req, res) => {
     const { provider } = req.body;
-    const { email } = req.body;
-    const { password } = req.body;
+    const access_expired = 3600;
 
-    async.waterfall([
-        function (next) {
-            // db.query(`SELECT u.*, t.token FROM user AS u LEFT JOIN token as t ON u.id = t.user_id WHERE u.provider = '${provider}' AND u.email = '${email}' AND u.password ='${password}'`, (err1, result1) => {
-            db.query(`SELECT u.* FROM user AS u WHERE u.provider = '${provider}' AND u.email = '${email}' AND u.password ='${password}'`, (err1, result1) => {
-                next(err1, result1);
-            });
-        },
-        function (rst1, next) {
+    if (provider == 'native') {
+        const { email } = req.body;
+        const { password } = req.body;
+        async.waterfall([
+            function (next) {
+                // db.query(`SELECT u.*, t.token FROM user AS u LEFT JOIN token as t ON u.id = t.user_id WHERE u.provider = '${provider}' AND u.email = '${email}' AND u.password ='${password}'`, (err1, result1) => {
+                db.query(`SELECT u.* FROM user AS u WHERE u.provider = '${provider}' AND u.email = '${email}' AND u.password ='${password}'`, (err1, result1) => {
+                    next(err1, result1);
+                });
+            },
+            function (rst1, next) {
 
-            if (rst1.length == 0) { // 若沒有此 user
-                const err = new Error('Invalid token.');
-                err.status = 404;
-                res.status(err.status);
-                res.send({ error: "Invalid token." });
-            } else { // 若有此 user 再新增 token 並 show 出資訊
-                var string_data = email + password + Date.now();
-                let access_token = crypto.createHash('sha256').update(string_data, 'utf8').digest('hex');
-                const access_expired = 3600;
+                if (rst1.length == 0) { // 若沒有此 user
+                    const err = new Error('Invalid token.');
+                    err.status = 404;
+                    res.status(err.status);
+                    res.send({ error: "Invalid token." });
+                } else { // 若有此 user 再新增 token 並 show 出資訊
+                    var string_data = email + password + Date.now();
+                    let access_token = crypto.createHash('sha256').update(string_data, 'utf8').digest('hex');
+                    // const access_expired = 3600;
 
-                res.json({
-                    data: {
-                        access_token, access_expired,
-                        user: {
-                            id: rst1[0].id,
-                            provider: rst1[0].provider,
-                            name: rst1[0].name,
-                            email: rst1[0].email,
-                            picture: rst1[0].picture
+                    res.json({
+                        data: {
+                            access_token, access_expired,
+                            user: {
+                                id: rst1[0].id,
+                                provider: rst1[0].provider,
+                                name: rst1[0].name,
+                                email: rst1[0].email,
+                                picture: rst1[0].picture
+                            }
                         }
-                    }
-                });
+                    });
+                    console.log({
+                        data: {
+                            access_token, access_expired,
+                            user: {
+                                id: rst1[0].id,
+                                provider: rst1[0].provider,
+                                name: rst1[0].name,
+                                email: rst1[0].email,
+                                picture: rst1[0].picture
+                            }
+                        }
+                    });
 
 
-                let sql_insert_token = { user_id: rst1[0].id, access_token, access_expired };
-                db.query(`INSERT INTO token SET?`, sql_insert_token, (err2, result2) => {
-                    next(err2, result2);
-                });
+
+                    let sql_insert_token = { user_id: rst1[0].id, access_token, access_expired };
+                    db.query(`INSERT INTO token SET?`, sql_insert_token, (err2, result2) => {
+                        next(err2, result2);
+                    });
+                }
+
             }
+        ], function (err, result) {
+            if (err) throw err;
+            // else console.log(result);
+        });
+    } else if (provider == 'facebook') {
+        // 使用 FB 登入，若重複註冊則更新名字圖片以及給新 token，反之則建立新帳號並給新的 token
+        const { fb_id } = req.body;
+        const { fb_token } = req.body;
+
+        request(`https://graph.facebook.com/v3.3/${fb_id}?access_token=${fb_token}&fields=name, email,picture{url}`, function (error, response, body) {
+            // console.log('error:', error); // Print the error if one occurred
+            // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+            // console.log('body:', JSON.parse(body)); // Print the HTML for the Google homepage.
+            body = JSON.parse(body);
+            name = body.name;
+            email = body.email;
+            picture = body.picture.data.url;
+            saveFBtoDB(name, email, picture);
+        });
+        function saveFBtoDB(name, email, picture) {
+            var string_data = name + email + Date.now();
+            let access_token = crypto.createHash('sha256').update(string_data, 'utf8').digest('hex');
+
+            async.waterfall([
+                function (next) { // 搜尋使用 FB 註冊過
+                    db.query(`SELECT email, id FROM user WHERE provider = 'facebook' AND email = '${email}';`, (err1, result1) => {
+                        next(err1, result1);
+                    });
+                },
+                function (rst1, next) {
+
+                    if (rst1.length == 0) { // 沒有則新增 user 
+                        db.query(`INSERT INTO user SET ?`, { provider: 'facebook', name, email, picture }, (err2, result2) => {
+                            db.query(`SELECT id FROM user WHERE email = '${email}' AND provider = 'facebook'`, (err2_1, result2_1) => {
+                                var id = result2_1[0].id;
+                                next(err2, result2, id);
+                            });
+
+                        });
+
+                    } else { // 若有則 update user name & picture
+                        var id = rst1[0].id;
+                        db.query(`UPDATE user SET name = '${name}',picture='${picture}' WHERE user.email = '${email}' AND user.provider = 'facebook'`, (err2, result2) => {
+                            next(err2, result2, id);
+                        });
+                    }
+                },
+                function (rst2, id, next) {
+                    let sql_insert_token = { user_id: id, access_token, access_expired };
+                    db.query(`INSERT INTO token SET ?`, sql_insert_token, (err3, result3) => {
+                        next(err3, result3);
+                    });
+                }
+
+            ], function (err, result) {
+                if (err) throw err;
+            });
 
         }
-    ], function (err, result) {
-        if (err) throw err;
-        // else console.log(result);
-    });
+
+
+
+    }
+
 });
 
 module.exports = router;

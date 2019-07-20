@@ -38,11 +38,4 @@ USE stylish;DROP TABLE product;CREATE TABLE product (
     token VARCHAR (127) NOT NULL,
     user_id BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (id)
-);-- insert data
-INSERT INTO
-    user (provider, name, email, picture) VALUE (
-        'Native',
-        '蔡采潔',
-        'd0177381@gmail.com',
-        'test.jpg'
-    );
+);

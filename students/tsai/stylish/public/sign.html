@@ -63,18 +63,31 @@
 
         .provider_wrap {
             font-size: 1.2em;
-            font-weight: bold;
+            /* font-weight: bold; */
+            position: relative;
+        }
+
+        .FB_button {
+            /* vertical-align: top; */
+            position: absolute;
+            top: -.5em;
         }
     </style>
+    <script type="text/JavaScript " src="./js/FB_api.js"></script>
 </head>
 
 
 <body>
     <script>
         function sign_in() {
-            var provider = document.querySelector('input[name="provider"]:checked').value;
-            var email = document.getElementsByClassName('signin_wrap')[0].getElementsByTagName('input')[2].value;
-            var password = document.getElementsByClassName('signin_wrap')[0].getElementsByTagName('input')[3].value;
+            // var provider = document.querySelector('input[name="provider"]:checked').value;
+            var provider = 'native';
+            var email = document.getElementsByClassName('signin_wrap')[0].getElementsByTagName('input')[0].value;
+            var password = document.getElementsByClassName('signin_wrap')[0].getElementsByTagName('input')[1].value;
+            if (email == '' || password == '') {
+                alert('請輸入帳號和密碼');
+                return false;
+            } // 輸入不能為空
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("POST", "/admin/signin");
             xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -87,6 +100,11 @@
             var email = document.getElementsByClassName('signup_wrap')[0].getElementsByTagName('input')[1].value;
             var password = document.getElementsByClassName('signup_wrap')[0].getElementsByTagName('input')[2].value;
             // var picture = document.getElementsByClassName('signup_wrap')[0].getElementsByTagName('input')[3].value;
+            if (name == '' || email == '' || password == '') {
+                alert('請輸入姓名、帳號和密碼');
+                return false;
+            }
+            // 輸入不能為空
             var picture = 'default.png';
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("POST", "/admin/signup");
@@ -100,20 +118,26 @@
         <h2>Sign Up</h2>
         <div class="signup_wrap">
             <!-- <form class="signup_form" action="/admin/signup" method="POST" enctype="multipart/form-data"> -->
-            <label>Name</label><input type="text" name='name'>
-            <label>Email</label><input type="text" name='email'>
-            <label>Password</label><input type="password" name='password'>
+            <label>Name</label><input type="text" name='name' required>
+            <label>Email</label><input type="text" name='email' required>
+            <label>Password</label><input type="password" name='password' required>
             <!-- <label>Picture</label><input type="file" name='picture' value='users/default.jpg'> -->
             <button type="submit" onclick="sign_up()">Sign up</button>
+            <div class="message"></div>
             <!-- </form> -->
         </div>
         <h2>Sign In</h2>
 
         <div class="signin_wrap">
             <!-- <form class="signin_form" method="POST"> -->
-            <div class="provider_wrap"><label>Provider</label>
-                <input type="radio" value='native' name='provider' class="category" checked>Native
-                <input type="radio" value='facebook' name='provider' class="category">Facebook
+            <div class="provider_wrap">
+                <p>使用 FB 登入
+                    <!-- <input type="radio" value='native' name='provider' class="category" checked>Native -->
+                    <!-- <input type="radio" value='facebook' name='provider' class="category">Facebook -->
+                    <fb:login-button class="FB_button" scope="public_profile,email" onlogin="checkLoginState();">
+                    </fb:login-button>
+
+                </p>
             </div>
             <label>Email</label><input type="text" name='email'>
             <label>Password</label><input type="password" name='password'>
