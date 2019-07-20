@@ -147,7 +147,6 @@ router.post('/admin/signup', (req, res) => {
                 res.status(err.status);
                 res.send({ error: "Invalid request body." });
 
-
             } else {
                 console.log('沒有此 user'); // 若沒有此註冊資訊就插入此 user
                 db.query(`INSERT INTO user SET ?`, user, (err2, result2) => {

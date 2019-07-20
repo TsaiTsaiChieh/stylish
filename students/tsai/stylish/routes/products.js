@@ -27,7 +27,8 @@ router.get('/all', (req, res) => {
         function (next) {
             db.query(`SELECT DISTINCT v.color_code AS code, v.name, p.id FROM variant AS v LEFT JOIN product AS p ON v.product_id=p.id`, function (err2, result2) {
                 next(err2, result2);
-            });
+
+            })
         },
         function (next) {
             db.query(`SELECT color_code, size, stock, product_id FROM variant`, function (err3, result3) {
