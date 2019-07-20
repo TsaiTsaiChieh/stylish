@@ -4,7 +4,12 @@ const multer = require('multer'); // npm install --save multer
 const db = require('../public/js/db');
 const crypto = require('crypto');
 const async = require("async"); //npm install --save async
+const body_parser = require('body-parser');
 
+// const mysql = require('mysql'); // npm install mysql
+
+router.use(body_parser.urlencoded({ extended: false }));
+router.use(body_parser.json());
 router.get('/admin', (req, res) => {
     res.send('admin');
 });
@@ -103,27 +108,25 @@ router.post('/admin/campaign.html', campaigns.single('picture'), (req, res) => {
 });
 // Build User Management Page
 // Set User storage
-var storage_users = multer.diskStorage({
-    // 設定上傳後文件路徑，campaigns 資料夾會自動建立
-    destination: function (req, file, cb) {
-        cb(null, 'users');
-    },
-    // 給上傳文件重新命名
-    filename: function (req, file, cb) {
-        file.originalname = file.originalname.replace('.jpg', '') + '_' + Date.now() + '.jpg';
-
-        cb(null, file.originalname);
-    }
-});
-var users = multer({ storage: storage_users }); // 設定添加到 multer 對象
-
-router.post('/admin/signup', users.single('picture'), (req, res) => {
+// var storage_users = multer.diskStorage({
+//     // 設定上傳後文件路徑，campaigns 資料夾會自動建立
+//     destination: function (req, file, cb) {
+//         cb(null, 'users');
+//     },
+//     // 給上傳文件重新命名
+//     filename: function (req, file, cb) {
+//         file.originalname = file.originalname.replace('.jpg', '') + '_' + Date.now() + '.jpg';
+//         cb(null, file.originalname);
+//     }
+// });
+// var users = multer({ storage: storage_users }); // 設定添加到 multer 對象
+// router.post('/admin/signup', users.single('picture'), (req, res) => {
+router.post('/admin/signup', (req, res) => {
     const provider = 'native';
     const { name } = req.body;
     const email = req.body.email.replace(/\s+/g, ""); // 過濾掉電子郵件的空格
-
     const { password } = req.body;
-    const picture = req.file.filename;
+    const { picture } = req.body;
     var user = { provider, name, email, password, picture };
     var string_data = name + email + Date.now();
     // 使用 let 才會在每次調用 digest 都創建個新 crypto 實例 
@@ -179,7 +182,6 @@ router.post('/admin/signin', (req, res) => {
     const { email } = req.body;
     const { password } = req.body;
 
-
     async.waterfall([
         function (next) {
             // db.query(`SELECT u.*, t.token FROM user AS u LEFT JOIN token as t ON u.id = t.user_id WHERE u.provider = '${provider}' AND u.email = '${email}' AND u.password ='${password}'`, (err1, result1) => {
@@ -188,6 +190,7 @@ router.post('/admin/signin', (req, res) => {
             });
         },
         function (rst1, next) {
+
             if (rst1.length == 0) { // 若沒有此 user
                 const err = new Error('Invalid token.');
                 err.status = 404;
@@ -210,6 +213,8 @@ router.post('/admin/signin', (req, res) => {
                         }
                     }
                 });
+
+
                 let sql_insert_token = { user_id: rst1[0].id, access_token, access_expired };
                 db.query(`INSERT INTO token SET?`, sql_insert_token, (err2, result2) => {
                     next(err2, result2);
@@ -222,6 +227,5 @@ router.post('/admin/signin', (req, res) => {
         // else console.log(result);
     });
 });
-
 
 module.exports = router;

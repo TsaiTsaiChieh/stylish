@@ -24,7 +24,9 @@
         }
 
         .signup_form,
-        .signin_form {
+        .signin_form,
+        .signin_wrap,
+        .signup_wrap {
             display: flex;
             flex-direction: column;
             line-height: 2;
@@ -68,25 +70,57 @@
 
 
 <body>
+    <script>
+        function sign_in() {
+            var provider = document.querySelector('input[name="provider"]:checked').value;
+            var email = document.getElementsByClassName('signin_wrap')[0].getElementsByTagName('input')[2].value;
+            var password = document.getElementsByClassName('signin_wrap')[0].getElementsByTagName('input')[3].value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("POST", "/admin/signin");
+            xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xmlhttp.send(JSON.stringify({ provider, email, password }));
+            console.log(JSON.stringify({ provider, email, password }));
+
+        }
+        function sign_up() {
+            var name = document.getElementsByClassName('signup_wrap')[0].getElementsByTagName('input')[0].value;
+            var email = document.getElementsByClassName('signup_wrap')[0].getElementsByTagName('input')[1].value;
+            var password = document.getElementsByClassName('signup_wrap')[0].getElementsByTagName('input')[2].value;
+            // var picture = document.getElementsByClassName('signup_wrap')[0].getElementsByTagName('input')[3].value;
+            var picture = 'default.png';
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("POST", "/admin/signup");
+            xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xmlhttp.send(JSON.stringify({ name, email, password, picture }));
+            console.log(JSON.stringify({ name, email, password, picture }));
+        }
+    </script>
+    <!-- <script src="../public/js/sign.js"></script> -->
     <div class="sign">
         <h2>Sign Up</h2>
-        <form class="signup_form" action="/admin/signup" method="POST" enctype="multipart/form-data">
+        <div class="signup_wrap">
+            <!-- <form class="signup_form" action="/admin/signup" method="POST" enctype="multipart/form-data"> -->
             <label>Name</label><input type="text" name='name'>
             <label>Email</label><input type="text" name='email'>
             <label>Password</label><input type="password" name='password'>
-            <label>Picture</label><input type="file" name='picture'>
-            <button type="submit">Sign up</button>
-        </form>
+            <!-- <label>Picture</label><input type="file" name='picture' value='users/default.jpg'> -->
+            <button type="submit" onclick="sign_up()">Sign up</button>
+            <!-- </form> -->
+        </div>
         <h2>Sign In</h2>
-        <form class="signin_form" action="/admin/signin" method="POST">
+
+        <div class="signin_wrap">
+            <!-- <form class="signin_form" method="POST"> -->
             <div class="provider_wrap"><label>Provider</label>
-                <input type="radio" value='Native' name='provider' class="category" checked>Native
-                <input type="radio" value='Facebook' name='provider' class="category">Facebook
+                <input type="radio" value='native' name='provider' class="category" checked>Native
+                <input type="radio" value='facebook' name='provider' class="category">Facebook
             </div>
             <label>Email</label><input type="text" name='email'>
             <label>Password</label><input type="password" name='password'>
-            <button type="submit">Sign in</button>
-        </form>
+            <button type="submit" onclick="sign_in()">Sign in</button>
+            <!-- </form> -->
+
+        </div>
     </div>
 </body>
 
