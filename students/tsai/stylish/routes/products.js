@@ -411,8 +411,8 @@ router.get('/search', (req, res) => {
 
 // for product details
 router.get('/details', (req, res) => {
-    const { id } = req.query;
-
+    var { id } = req.query;
+    if (!id) id = 1; // 避免網頁掛掉
     async.series([
         function (next) {
             db.query(`SELECT DISTINCT p.id, p.category, p.title, p.description, p.price, p.texture, p.wash, p.place, p.note, p.story, p.sizes,p.main_image, p.images
