@@ -13,7 +13,16 @@ router.get('/', (req, res) => {
 });
 router.post('/checkout', (req, res) => {
     const { prime } = req.body;
-    res.json({ prime });
+    var { order } = req.body;
+    order.list = JSON.parse(order.list);
+    // console.log(order);
+    // console.log(order.list);
+    console.log(order.list);
+
+    res.json({ prime, order });
+    // console.log({ prime, order });
+
+
 });
 
 module.exports = router;

@@ -22,34 +22,108 @@
             -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
             box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
         }
+
+        input {
+            margin-right: 10px;
+            width: 20em;
+            font-size: 1em;
+
+            line-height: 1.5em;
+        }
+
+        .product_wrap {
+            margin-bottom: 1.5em;
+            display: flex;
+            flex-direction: column;
+            line-height: 2em;
+
+        }
+
+        button {
+            font-size: 1.2em;
+            width: 10em;
+            margin: 1em 0;
+            padding: .3em 0;
+            /* border-radius: .5em; */
+            color: #fff;
+            background: #000;
+            border: none;
+        }
+
+        .colors_wrap {
+            font-size: 1em;
+            display: flex;
+            flex-direction: row;
+            margin-top: 1em
+        }
+
+        .colors_wrap input {
+            width: 7em;
+        }
     </style>
     <script src="https://js.tappaysdk.com/tpdirect/v5.1.0"></script>
     <script>
-        TPDirect.setupSDK(13956, 'app_OqEjgnXl8CB72AgdC67UKWzUAmEp7Su7tiweHIUMQwJ2S41NUYrcmYFwPH8C', 'sandbox');
+        TPDirect.setupSDK(12348, 'app_pa1pQcKoY22IlnSXq5m5WP5jFKzoRG58VEXpT7wU62ud7mMbDOGzCYIlzzLF', 'sandbox');
     </script>
 </head>
 
 
 <body>
+    <div style="width: 80%; margin: 50px auto;">
 
-    <div style="width: 480px; margin: 50px auto;">
-        <!-- <label>CardView</label> -->
-        <!-- 表單 -->
-        <div id="cardview-container">
-            <label>visa 卡號
+        <div class="product_wrap">
+            <!-- <h3>填寫商品</h3>
+            <label>Product id</label><input type="text" class='id'>
+            <label>Name</label><input type="text" class='name'>
+            <label>Price</label><input type="text" class='price'>
+            <div class="colors_wrap">
+                <label>Name</label><input type="text" class="color_name">
+                <label>Code</label><input type="text" class="color_code">
+            </div>
+            <label>Size</label><input type="text" class='size'>
+            <label>Qty</label><input type="text" class='qty'> -->
+            <!-- <h3>選擇購買商品</h3>
+            <input type="checkbox" class="product"
+                value="願君多採擷, price: 999,color_code: DDF0FF, color_name: 深藍,size: M,qty: 1" checked>願君多採擷, price: 999,
+            color_code: DDF0FF, color_name: 深藍, size: M, qty:
+            1<br>
+            <input type="checkbox" class="product"
+                value="此物最相思, price: 520, color_code: 00DD00, color_name: 淺綠, size: S, qty: 2">此物最相思, price: 520,
+            color_code: 00DD00,color_name: 淺綠, size: S, qty: 2<br>
+            <input type="checkbox" class="product"
+                value="小扇紋細織上衣, price: 777, color_code: FFFFFF, color_name: 白, size: M, qty: 3">小扇紋細織上衣, price: 777,
+            color_code: FFFFFF,
+            color_name: 白, size: M, qty: 3<br>
+            <input type="checkbox" class="product"
+                value="純色輕薄百搭襯衫, price: 888, color_code: 000088, color_name: 藍, size: L, qty: 4">純色輕薄百搭襯衫, price: 888,
+            color_code: 000088,
+            color_name: 藍, size: L, qty: 4<br>
+            <input type="checkbox" class="product"
+                value="經典商務西裝, price: 2300, color_code: 000000, color_name: 黑, size: L, qty: 5">經典商務西裝, price: 2300,
+            color_code: 000000,
+            color_name: 黑, size: L, qty: 5<br>
+            <input type="checkbox" class="product"
+                value="卡哇伊多功能隨身包, price: 500, color_code: FF8888, color_name: 粉紅, size: S, qty: 6">卡哇伊多功能隨身包, price:
+            500, color_code: FF8888,
+            color_name: 粉紅, size: S, qty: 6<br> -->
+        </div>
+        <HR>
+        <div id="payment">
+            <h3>付款資料</h3>
+            <label>信用卡號碼
                 <div class="tpfield" id="card-number"></div>
             </label>
             <label>
-                卡片到期日
+                有效期限
                 <div class="tpfield" id="card-expiration-date"></div>
             </label>
             <label>
-                卡片後三碼
+                安全碼
                 <div class="tpfield" id="card-ccv"></div>
             </label>
         </div>
         <!-- 觸發 GetPrime 的按鈕 -->
-        <button id="submit-button" onclick="onClick()">Get Prime</button>
+        <button id="submit-button" onclick="onClick()">確認付款</button>
     </div>
 
     <script>
@@ -152,21 +226,65 @@
             //     // setNumberFormGroupToNormal()
             // }
         });
+
         function onClick() {
             // 讓 button click 之後觸發 getPrime 方法
             TPDirect.card.getPrime(function (result) {
                 if (result.status !== 0) {
                     console.err('getPrime 錯誤')
-                    return false;
+                    return
                 }
+
                 const prime = result.card.prime;
-                alert('getPrime 成功: ' + prime);
+
+                // get product list
+                // var products = [];
+                // var productList = document.getElementsByClassName('product');
+                var subtotal = 1299;
+                var freight = 60;
+                var total = subtotal + freight;
+                // for (let i = 0; i < productList.length; i++) {
+                //     if (productList[i].checked) {
+                //         products.push(productList[i].value);
+                //         subtotal += parseInt(products[i].replace(/\s+/g, "").split(',')[1].replace('price:', ""));
+                //     }
+                // }
+                // if (subtotal >= 1000) { // 我們一千免運!
+                //     total = subtotal;
+                // }
+                // else {
+                //     freight = 60;
+                //     total = subtotal + freight;
+                // }
+                var recipient = {
+                    name: '蔡采潔',
+                    phone: '0987654321',
+                    email: 'jecica196@gmail.com',
+                    address: '市政府站',
+                    time: 'morning'
+                };
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("POST", "/api/1/order/checkout");
                 xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                xmlhttp.send(JSON.stringify({ prime }));
-                console.log(prime);
-
+                var list = [{
+                    id: '201807202157', name: '活力花紋長筒牛仔褲', price: 1299,
+                    color: {
+                        code: 'DDF0FF', name: '淺藍'
+                    },
+                    size: 'M', qty: 1
+                }];
+                // var id = document.getElementsByClassName('id')[0].value;
+                // var name = document.getElementsByClassName('name')[0].value;
+                // var price = document.getElementsByClassName('price')[0].value;
+                // var color_code = document.getElementsByClassName('color_code')[0].value;
+                // var color_name = document.getElementsByClassName('color_name')[0].value;
+                // var size = document.getElementsByClassName('size')[0].value;
+                // var qty = document.getElementsByClassName('qty')[0].value;
+                // var list = [{ id, name, color: { code: color_code, name: color_name }, size, qty }];
+                list = JSON.stringify(list);
+                var order = { shipping: 'delivery', payment: 'credit_card', subtotal, freight, total, recipient, list };
+                console.log(JSON.stringify({ prime, order }));
+                xmlhttp.send(JSON.stringify({ prime, order }));
             })
         }
 
