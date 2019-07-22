@@ -27,7 +27,6 @@ function checkLoginState() {
         const provider = 'facebook';
         const fb_id = response.authResponse.userID;
         const fb_token = response.authResponse.accessToken;
-        // console.log(id);
 
         // Front End send facebook access token to User Sign In API supported by backend.
         var xmlhttp = new XMLHttpRequest();

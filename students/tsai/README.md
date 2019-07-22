@@ -110,4 +110,8 @@ git pull origin branch
 mysql -u root -p stylish < mysqldump.sql 
 pm2 delete app
 pm2 start ../app.js
-
+- - -
+Nginx PATH:
+/usr/local/etc/nginx
+Setting https in localhost:</br>
+https://xenby.com/b/205-%E6%8E%A8%E8%96%A6-%E5%BF%AB%E9%80%9F%E7%94%A2%E7%94%9F%E6%9C%AC%E5%9C%B0%E7%AB%AF%E9%96%8B%E7%99%BC%E7%94%A8ssl%E6%86%91%E8%AD%89%E5%B7%A5%E5%85%B7-mkcert

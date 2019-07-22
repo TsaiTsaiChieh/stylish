@@ -18,6 +18,8 @@ const marketingRouters = require('./routes/marketing');
 app.use('/api/1/marketing', marketingRouters);
 const userRouters = require('./routes/user');
 app.use('/api/1/user', userRouters);
+const orderRouters = require('./routes/order');
+app.use('/api/1/order', orderRouters);
 
 app.get('/', (req, res) => {
     res.send('Tsai, Tsai-Chieh');
