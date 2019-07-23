@@ -39,3 +39,33 @@ USE stylish;DROP TABLE product;CREATE TABLE product (
     user_id BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE order_record (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id BIGINT UNSIGNED NOT NULL,
+    shipping VARCHAR (32) NOT NULL,
+    payment VARCHAR (32) NOT NULL,
+    subtotal INT NOT NULL,
+    freight INT NOT NULL,
+    total INT NOT NULL,
+    recipient JSON,
+    status VARCHAR(16) NOT NULL,
+    PRIMARY KEY (id)
+);
+CREATE TABLE order_list (
+    order_id BIGINT UNSIGNED NOT NULL, 
+    product_id BIGINT UNSIGNED NOT NULL, 
+    name VARCHAR (255) NOT NULL,
+    price INT NOT NULL, 
+    color_code VARCHAR (32) NOT NULL, 
+    color_name VARCHAR (32) NOT NULL, 
+    size VARCHAR(16) NOT NULL,
+    qty INT NOT NULL
+);
+CREATE TABLE payment (
+    order_id BIGINT UNSIGNED NOT NULL,
+    user_id BIGINT UNSIGNED NOT NULL, 
+    status VARCHAR(16) NOT NULL
+);
+
+

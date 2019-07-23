@@ -201,7 +201,6 @@ router.post('/admin/signin', (req, res) => {
                 } else { // 若有此 user 再新增 token 並 show 出資訊
                     var string_data = email + password + Date.now();
                     let access_token = crypto.createHash('sha256').update(string_data, 'utf8').digest('hex');
-                    // const access_expired = 3600;
 
                     res.json({
                         data: {
@@ -217,8 +216,10 @@ router.post('/admin/signin', (req, res) => {
                     });
 
                     let sql_insert_token = { user_id: rst1[0].id, access_token, access_expired };
-                    db.query(`INSERT INTO token SET?`, sql_insert_token, (err2, result2) => {
+                    db.query(`INSERT INTO token SET ?`, sql_insert_token, (err2, result2) => {
+
                         next(err2, result2);
+
                     });
                 }
 

@@ -70,7 +70,6 @@
 
 <body>
     <div style="width: 80%; margin: 50px auto;">
-
         <div class="product_wrap">
             <!-- <h3>填寫商品</h3>
             <label>Product id</label><input type="text" class='id'>
@@ -82,30 +81,6 @@
             </div>
             <label>Size</label><input type="text" class='size'>
             <label>Qty</label><input type="text" class='qty'> -->
-            <!-- <h3>選擇購買商品</h3>
-            <input type="checkbox" class="product"
-                value="願君多採擷, price: 999,color_code: DDF0FF, color_name: 深藍,size: M,qty: 1" checked>願君多採擷, price: 999,
-            color_code: DDF0FF, color_name: 深藍, size: M, qty:
-            1<br>
-            <input type="checkbox" class="product"
-                value="此物最相思, price: 520, color_code: 00DD00, color_name: 淺綠, size: S, qty: 2">此物最相思, price: 520,
-            color_code: 00DD00,color_name: 淺綠, size: S, qty: 2<br>
-            <input type="checkbox" class="product"
-                value="小扇紋細織上衣, price: 777, color_code: FFFFFF, color_name: 白, size: M, qty: 3">小扇紋細織上衣, price: 777,
-            color_code: FFFFFF,
-            color_name: 白, size: M, qty: 3<br>
-            <input type="checkbox" class="product"
-                value="純色輕薄百搭襯衫, price: 888, color_code: 000088, color_name: 藍, size: L, qty: 4">純色輕薄百搭襯衫, price: 888,
-            color_code: 000088,
-            color_name: 藍, size: L, qty: 4<br>
-            <input type="checkbox" class="product"
-                value="經典商務西裝, price: 2300, color_code: 000000, color_name: 黑, size: L, qty: 5">經典商務西裝, price: 2300,
-            color_code: 000000,
-            color_name: 黑, size: L, qty: 5<br>
-            <input type="checkbox" class="product"
-                value="卡哇伊多功能隨身包, price: 500, color_code: FF8888, color_name: 粉紅, size: S, qty: 6">卡哇伊多功能隨身包, price:
-            500, color_code: FF8888,
-            color_name: 粉紅, size: S, qty: 6<br> -->
         </div>
         <HR>
         <div id="payment">
@@ -122,8 +97,13 @@
                 <div class="tpfield" id="card-ccv"></div>
             </label>
         </div>
+        <label>Token<input type="token" class="token"></label>
+        <div class="message"></div>
         <!-- 觸發 GetPrime 的按鈕 -->
-        <button id="submit-button" onclick="onClick()">確認付款</button>
+        <button id="submit-button" onclick="onClick()">確認付款
+        </button>
+
+
     </div>
 
     <script>
@@ -258,7 +238,7 @@
                 // }
                 var recipient = {
                     name: '蔡采潔',
-                    phone: '0987654321',
+                    phone_number: '+886923456789',
                     email: 'jecica196@gmail.com',
                     address: '市政府站',
                     time: 'morning'
@@ -266,8 +246,11 @@
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("POST", "/api/1/order/checkout");
                 xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                // set header 比較好測試
+                // xmlhttp.setRequestHeader('Authorization', 'Bearer ' + '737f00dccc2e1088ba8d8fcd69a4252dc71eb87dfcaa8c5a3674ba9f99ee2f35');
+
                 var list = [{
-                    id: '201807202157', name: '活力花紋長筒牛仔褲', price: 1299,
+                    id: '3', name: '活力花紋長筒牛仔褲', price: 999,
                     color: {
                         code: 'DDF0FF', name: '淺藍'
                     },
@@ -281,10 +264,26 @@
                 // var size = document.getElementsByClassName('size')[0].value;
                 // var qty = document.getElementsByClassName('qty')[0].value;
                 // var list = [{ id, name, color: { code: color_code, name: color_name }, size, qty }];
+                const token = document.getElementsByClassName('token')[0].value;
+                console.log(token);
+
                 list = JSON.stringify(list);
                 var order = { shipping: 'delivery', payment: 'credit_card', subtotal, freight, total, recipient, list };
                 console.log(JSON.stringify({ prime, order }));
-                xmlhttp.send(JSON.stringify({ prime, order }));
+                xmlhttp.onreadystatechange = function () {
+
+                    if (this.status === 404) {
+                        // document.getElementsByClassName("message")[1].innerHTML = xmlhttp.responseText;
+                        document.getElementsByClassName("message")[0].innerHTML = '無效 Token，請重新登入！';
+                    }
+                    else if (this.status === 400) {
+                        document.getElementsByClassName("message")[0].innerHTML = '交易失敗！';
+                    }
+                    else if (this.status == 200) {
+                        document.getElementsByClassName("message")[0].innerHTML = '交易成功';
+                    }
+                }
+                xmlhttp.send(JSON.stringify({ prime, order, token }));
             })
         }
 
