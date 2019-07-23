@@ -42,6 +42,127 @@ INSERT INTO `campaign` VALUES (1,1,'0_1563331547605.jpg','於是 我也想要給
 UNLOCK TABLES;
 
 --
+-- Table structure for table `order_information`
+--
+
+DROP TABLE IF EXISTS `order_information`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `order_information` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `shipping` varchar(32) NOT NULL,
+  `payment` varchar(32) NOT NULL,
+  `subtotal` int(11) NOT NULL,
+  `freight` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
+  `recipient` json DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_information`
+--
+
+LOCK TABLES `order_information` WRITE;
+/*!40000 ALTER TABLE `order_information` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order_information` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `order_list`
+--
+
+DROP TABLE IF EXISTS `order_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `order_list` (
+  `order_id` bigint(20) unsigned NOT NULL,
+  `product_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `price` int(11) NOT NULL,
+  `color_code` varchar(32) NOT NULL,
+  `color_name` varchar(32) NOT NULL,
+  `size` varchar(16) NOT NULL,
+  `qty` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_list`
+--
+
+LOCK TABLES `order_list` WRITE;
+/*!40000 ALTER TABLE `order_list` DISABLE KEYS */;
+INSERT INTO `order_list` VALUES (1,3,'活力花紋長筒牛仔褲',999,'DDF0FF','淺藍','M',1),(2,3,'活力花紋長筒牛仔褲',999,'DDF0FF','淺藍','M',1),(3,3,'活力花紋長筒牛仔褲',999,'DDF0FF','淺藍','M',1),(4,3,'活力花紋長筒牛仔褲',999,'DDF0FF','淺藍','M',1),(5,3,'活力花紋長筒牛仔褲',999,'DDF0FF','淺藍','M',1);
+/*!40000 ALTER TABLE `order_list` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `order_record`
+--
+
+DROP TABLE IF EXISTS `order_record`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `order_record` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `shipping` varchar(32) DEFAULT NULL,
+  `payment` varchar(32) DEFAULT NULL,
+  `subtotal` int(11) DEFAULT NULL,
+  `freight` int(11) DEFAULT NULL,
+  `total` int(11) DEFAULT NULL,
+  `recipient` json DEFAULT NULL,
+  `status` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_record`
+--
+
+LOCK TABLES `order_record` WRITE;
+/*!40000 ALTER TABLE `order_record` DISABLE KEYS */;
+INSERT INTO `order_record` VALUES (1,2,'delivery','credit_card',1299,60,1359,'[{\"id\": \"3\", \"qty\": 1, \"name\": \"活力花紋長筒牛仔褲\", \"size\": \"M\", \"color\": {\"code\": \"DDF0FF\", \"name\": \"淺藍\"}, \"price\": 999}]','paid'),(2,0,'delivery','credit_card',1299,60,1359,'[{\"id\": \"3\", \"qty\": 1, \"name\": \"活力花紋長筒牛仔褲\", \"size\": \"M\", \"color\": {\"code\": \"DDF0FF\", \"name\": \"淺藍\"}, \"price\": 999}]','unpaid'),(3,0,'delivery','credit_card',1299,60,1359,'[{\"id\": \"3\", \"qty\": 1, \"name\": \"活力花紋長筒牛仔褲\", \"size\": \"M\", \"color\": {\"code\": \"DDF0FF\", \"name\": \"淺藍\"}, \"price\": 999}]','unpaid'),(4,0,'delivery','credit_card',1299,60,1359,'[{\"id\": \"3\", \"qty\": 1, \"name\": \"活力花紋長筒牛仔褲\", \"size\": \"M\", \"color\": {\"code\": \"DDF0FF\", \"name\": \"淺藍\"}, \"price\": 999}]','paid'),(5,2,'delivery','credit_card',1299,60,1359,'[{\"id\": \"3\", \"qty\": 1, \"name\": \"活力花紋長筒牛仔褲\", \"size\": \"M\", \"color\": {\"code\": \"DDF0FF\", \"name\": \"淺藍\"}, \"price\": 999}]','paid');
+/*!40000 ALTER TABLE `order_record` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payment`
+--
+
+DROP TABLE IF EXISTS `payment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `payment` (
+  `order_id` bigint(20) unsigned NOT NULL,
+  `status` varchar(16) NOT NULL,
+  `msg` varchar(255) NOT NULL,
+  `rec_trade_id` varchar(32) DEFAULT NULL,
+  `bank_transaction_id` varchar(42) DEFAULT NULL,
+  `auth_code` varchar(8) DEFAULT NULL,
+  `amount` int(11) DEFAULT NULL,
+  `currency` varchar(4) DEFAULT NULL,
+  `card_info` json DEFAULT NULL,
+  `acquirer` varchar(128) DEFAULT NULL,
+  `card_identifier` varchar(64) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payment`
+--
+
+LOCK TABLES `payment` WRITE;
+/*!40000 ALTER TABLE `payment` DISABLE KEYS */;
+INSERT INTO `payment` VALUES (1,'0','Success','D20190723Uxy4ZR','TP20190723Uxy4ZR','358224',100,'TWD','{\"type\": 1, \"level\": \"\", \"issuer\": \"\", \"bank_id\": \"\", \"country\": \"UNITED KINGDOM\", \"funding\": 0, \"bin_code\": \"424242\", \"last_four\": \"4242\", \"country_code\": \"GB\", \"issuer_zh_tw\": \"\"}','TW_CTBC','dee921560b074be7a860a6b44a80c21b'),(2,'121','Invalid arguments : prime',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,'121','Invalid arguments : prime',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,'0','Success','D2019072341zxES','TP2019072341zxES','827114',100,'TWD','{\"type\": 1, \"level\": \"\", \"issuer\": \"\", \"bank_id\": \"\", \"country\": \"UNITED KINGDOM\", \"funding\": 0, \"bin_code\": \"424242\", \"last_four\": \"4242\", \"country_code\": \"GB\", \"issuer_zh_tw\": \"\"}','TW_CTBC','dee921560b074be7a860a6b44a80c21b'),(5,'0','Success','D20190723EaSU8d','TP20190723EaSU8d','962109',100,'TWD','{\"type\": 1, \"level\": \"\", \"issuer\": \"\", \"bank_id\": \"\", \"country\": \"UNITED KINGDOM\", \"funding\": 0, \"bin_code\": \"424242\", \"last_four\": \"4242\", \"country_code\": \"GB\", \"issuer_zh_tw\": \"\"}','TW_CTBC','dee921560b074be7a860a6b44a80c21b');
+/*!40000 ALTER TABLE `payment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `product`
 --
 
@@ -97,7 +218,7 @@ CREATE TABLE `token` (
 
 LOCK TABLES `token` WRITE;
 /*!40000 ALTER TABLE `token` DISABLE KEYS */;
-INSERT INTO `token` VALUES (1,'96afde83b28a4e9add4b8731e324c52afcfce468e4db3c25404e402e5889923c',3600,'2019-07-20 21:48:58'),(2,'6f096b71523c4d5241961390e9a7a147a7d971b816239fc23f6d8562d94fb5b0',3600,'2019-07-20 21:50:21'),(1,'b54e577cbc849985655e54ed03ebd140d7096e6d9bf1ba035332b18887557429',3600,'2019-07-20 21:50:55'),(1,'265fc15add9cd5bf4f2bf9c4bafdf80117ded1f09c39c86fecac588d790b1b9b',3600,'2019-07-20 21:51:15'),(1,'98ce63245d70ba8849e44fff8dc3b1f759c9f576bf3669a27a7fb1c61a9f753b',3600,'2019-07-20 21:51:28'),(3,'fd7830a31dc9db94ced112731eca827537761b97a23994787048313d13433e3c',3600,'2019-07-20 21:52:42'),(3,'093d7b46361f2116a605bc135d9aef6382c374c268de647d4830aa850b89af07',3600,'2019-07-20 21:52:54');
+INSERT INTO `token` VALUES (1,'2e63fc7743afd06d4c934132ffe71014de8e8df596cda0c055b53001e6b78875',360000,'2019-07-22 17:39:34'),(1,'b99d0e7c8dc6f4d1673cb70143823f9eae201b5f23495f7bd388509d8401c42e',360000,'2019-07-22 17:39:47'),(2,'a10219d41a5906facd71a58ea541cef5d8f64e5c6f1e75dc49b0b68682c80a26',360000,'2019-07-22 17:49:24'),(2,'b7b84a87c00e265ff3e761cee4cba9fa96e870966fd175b7d1875535238e0a52',360000,'2019-07-22 17:49:40'),(2,'a6653d58971476901e7a21f1e40a32efbefece63c22ca46521b2d0d1bb06fd3b',3600,'2019-07-23 14:47:24'),(2,'737f00dccc2e1088ba8d8fcd69a4252dc71eb87dfcaa8c5a3674ba9f99ee2f35',10000000,'2019-07-23 14:47:57');
 /*!40000 ALTER TABLE `token` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,7 +237,7 @@ CREATE TABLE `user` (
   `password` varchar(31) DEFAULT NULL,
   `picture` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +246,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'native','蔡采潔','jecica196@gmail.com','0000','default.png'),(2,'native','蔡采潔','d0177381@gmail.com','0000','default.png'),(3,'facebook','蔡采潔','jecica196@gmail.com',NULL,'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2252592508181751&height=50&width=50&ext=1566222774&hash=AeSjQTCrrkL4lABH');
+INSERT INTO `user` VALUES (1,'native','蔡采潔','jecica196@gmail.com','0000','default.png'),(2,'native','蔡采潔','d0177381@gmail.com','0000','default.png'),(3,'facebook','蔡采潔','jecica196@gmail.com',NULL,'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2252592508181751&height=50&width=50&ext=1566289520&hash=AeTun2ThgIzOYBx7'),(4,'native','蔡采潔','jecica1sss96@gmail.com','0000','default.png'),(5,'native','蔡','j121','12','default.png');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,4 +285,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-20 21:58:31
+-- Dump completed on 2019-07-23 15:56:13
