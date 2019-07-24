@@ -4,6 +4,7 @@ const body_parser = require('body-parser');
 const mysql = require('mysql'); // npm install mysql
 
 app.use(body_parser.urlencoded({ extended: false }));
+
 app.use('/admin', express.static('public'));
 app.use('/uploads', express.static('uploads'));
 app.use('/campaigns', express.static('campaigns'));

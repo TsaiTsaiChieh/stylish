@@ -76,7 +76,8 @@ function attachProductList(product_container) {
                 // color
                 let colors = document.createElement('div');
                 colors.className = 'colors';
-                for (let j = 0; j < res.data[i].colors.length; j++) {
+                for (let j =
+                    0; j < res.data[i].colors.length; j++) {
 
                     let color = document.createElement('div');
                     color.className = 'color';
