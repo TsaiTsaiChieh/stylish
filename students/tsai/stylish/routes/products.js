@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 router.get('/all', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
-    var show_num = 5;
+    var show_num = 6;
     // default paging = 0
     if (!paging) {
         paging = 0;
