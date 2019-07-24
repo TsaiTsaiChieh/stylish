@@ -9,7 +9,7 @@ router.get('/campaigns', (req, res) => {
     let sql_search_campaign = `SELECT * FROM campaign`;
     db.query(sql_search_campaign, (err, result) => {
         if (err) throw err;
-        else console.log('Search campaign:', result);
+        // else console.log('Search campaign:', result);
         var data = { data: result };
         res.json(data);
     });
