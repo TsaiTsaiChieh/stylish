@@ -117,7 +117,7 @@ router.post('/checkout', (req, res) => {
             if (rst2.status == 0) {
                 db.query(`INSERT INTO payment SET ?`, payment, (err3, result3) => {
                     db.query(`UPDATE order_record AS o SET o.status = 'paid' WHERE o.id=${order_id}`, (err4, result4) => {
-                        next(err3, result3);
+                        next(err3, result3, order_id);
                     });
 
                 });
@@ -131,8 +131,8 @@ router.post('/checkout', (req, res) => {
                 });
             }
         }
-    ], function (err, result) {
-        res.send('Successful payment');
+    ], function (err, result, order_id) {
+        res.json(order_id);
     });
 
 

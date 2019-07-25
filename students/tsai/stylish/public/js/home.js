@@ -2,6 +2,7 @@ const product_container = document.getElementsByClassName('product_container')[0
 const carousel = document.getElementsByClassName('carousel')[0];
 attachBannerList(carousel);
 attachProductList(product_container);
+// localStorage.setItem("lastname", "Smith");
 
 function attachBannerList(carousel) {
     var req = new XMLHttpRequest();

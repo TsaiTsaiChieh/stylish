@@ -6,6 +6,7 @@ function productInformation(container) {
     var req = new XMLHttpRequest();
     req.onreadystatechange = function () {
         if (req.readyState === 4) {
+            const brown_color = '#8b572a'
             var res = JSON.parse(req.responseText);
             // createElement
             let card = document.createElement('div');
@@ -34,7 +35,10 @@ function productInformation(container) {
             let line = document.createElement('div');
             let description = document.createElement('div');
             let story = document.createElement('p');
-
+            let note = document.createElement('div');
+            let texture = document.createElement('div');
+            let wash = document.createElement('div');
+            let place = document.createElement('div');
 
             // setAttribute
             card.setAttribute('class', 'card mb-3');
@@ -64,6 +68,10 @@ function productInformation(container) {
             line.setAttribute('class', 'line');
             description.setAttribute('class', 'description');
             story.setAttribute('class', 'story');
+            note.setAttribute('class', 'note sub-text');
+            texture.setAttribute('class', 'texture sub-text');
+            wash.setAttribute('class', 'wash sub-text');
+            place.setAttribute('class', 'place sub-text');
             // setValue
             card_img.src = '../uploads/' + res.data[0].main_image;
             title.innerHTML = res.data[0].title;
@@ -78,7 +86,10 @@ function productInformation(container) {
             buy_button.innerHTML = '直接購買';
             sep_title.innerHTML = '更多產品資訊';
             story.innerHTML = res.data[0].story;
-
+            note.innerHTML = res.data[0].note;
+            texture.innerHTML = res.data[0].texture;
+            wash.innerHTML = res.data[0].wash;
+            place.innerHTML = res.data[0].place;
 
             chose_colors.appendChild(color_title);
             for (let i = 0; i < res.data[0].colors.length; i++) {
@@ -124,26 +135,38 @@ function productInformation(container) {
             qty.appendChild(qty_button);
             details.appendChild(qty);
             details.appendChild(buy_button);
+            details.appendChild(note);
+            details.appendChild(texture);
+            details.appendChild(wash);
+            details.appendChild(place);
             separator.appendChild(sep_title);
             separator.appendChild(line);
             container.appendChild(separator);
             container.appendChild(description);
 
             // set header category
+            if (res.data[0].category == 'women') document.getElementsByClassName('nav-link')[0].style.color = brown_color;
+            else if (res.data[0].category == 'men') document.getElementsByClassName('nav-link')[1].style.color = brown_color;
+            else document.getElementsByClassName('nav-link')[2].style.color = brown_color;
 
-            if (res.data[0].category == 'women') {
-                document.getElementsByClassName('nav-link')[0].style.color = '#8b572a';
-            }
-            else if (res.data[0].category == 'men') {
-                document.getElementsByClassName('nav-link')[1].style.color = '#8b572a';
-            }
-            else {
-                document.getElementsByClassName('nav-link')[2].style.color = '#8b572a';
-            }
+            // add buy_button Listener
+            let buy_product = {
+                id: res.data[0].id, name: res.data[0].title, price: res.data[0].price,
+                color: {
+                    code: res.data[0].colors[0].code, name: res.data[0].colors[0].name
+                }, size: res.data[0].sizes[0], qty: 1
+            };
+            buy_button.addEventListener('click', function () {
+                window.location.href = 'checkout.html';
+                sessionStorage.setItem('buy_product', JSON.stringify(buy_product));
 
+
+            });
         }
     }
 
     req.open('get', `/api/1/products/details?id=${id}`);
     req.send();
 }
+
+

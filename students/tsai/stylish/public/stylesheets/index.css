@@ -300,10 +300,10 @@ footer {
     border: none;
     
 }
-/* .container .sub-text {
+.container .sub-text {
     font-size: 19px;
     line-height: 2;
-} */
+}
 .information {
     display: flex;
     flex-direction: row;
