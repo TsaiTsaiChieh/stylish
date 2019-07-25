@@ -64,20 +64,25 @@ function attachProductList(product_container) {
             // var paging = res.paging;
 
             for (let i = 0; i < Object.keys(res.data).length; i++) {
+                // console.log(res.data[i].id);
                 let card = document.createElement('div');
                 card.className = 'card';
+                let link = document.createElement('a');
+                link.href = `/admin/products.html?id=${res.data[i].id}`;
+                // link.href = '/admin/products.html';
+
 
                 let card_img_top = document.createElement('img');
                 card_img_top.className = 'card-img-top';
                 card_img_top.src = '../uploads/' + res.data[i].main_image;
+                link.append(card_img_top); // link
 
                 let card_body = document.createElement('div');
                 card_body.className = 'card-body';
                 // color
                 let colors = document.createElement('div');
                 colors.className = 'colors';
-                for (let j =
-                    0; j < res.data[i].colors.length; j++) {
+                for (let j = 0; j < res.data[i].colors.length; j++) {
 
                     let color = document.createElement('div');
                     color.className = 'color';
@@ -93,7 +98,8 @@ function attachProductList(product_container) {
                 price.innerHTML = 'TWD. ' + res.data[i].price;
                 card_body.appendChild(product_name);
                 card_body.appendChild(price);
-                card.appendChild(card_img_top);
+                card.appendChild(link);
+                // card.appendChild(card_img_top);
                 card.appendChild(card_body);
                 product_container.appendChild(card);
             }
