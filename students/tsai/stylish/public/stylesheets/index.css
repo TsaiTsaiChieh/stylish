@@ -143,7 +143,7 @@ nav.mobile {
 .product_container .card-body {
     line-height: .5;
     padding-left: 0;
-    letter-spacing: var(--letter-space);
+    letter-spacing: 2px;
 }
 .colors {
     margin-bottom: 15px;
@@ -196,6 +196,7 @@ footer {
 /**************************/
 /* for products.html page */
 /**************************/
+
 .container {
     display: flex;
     flex-direction: column;
