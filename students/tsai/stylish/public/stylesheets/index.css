@@ -232,7 +232,7 @@ footer {
 .container .id {
     color: var(--light-gray);
     font-weight: blod;
-    letter-spacing: var(--letter-space);
+    letter-spacing: 2px;
 }
 .container .card-item {
     display: flex;
@@ -260,10 +260,14 @@ footer {
     height: 30px;
     text-align: center;
     font-size: 20px;
-    background: var(--charcoal-grey);
+    background: #E6E6E6;
     border-radius: 50%;
-    color: #fff;
+    color: #000;
     vertical-align: middle;
+}
+.container .card-item .size.active {
+    color: #fff;
+    background: #000;
 }
 .container .qty-button {
     display: flex;
@@ -286,7 +290,7 @@ footer {
     text-align: center;
     margin: auto;
 }
-.container .add-card {
+.container .buy_button {
     font-size: 1.2em;
     width: 300px;
     margin: 10% 0;
@@ -294,11 +298,12 @@ footer {
     color: #fff;
     background: #000;
     border: none;
+    
 }
-.container .sub-text {
+/* .container .sub-text {
     font-size: 19px;
     line-height: 2;
-}
+} */
 .information {
     display: flex;
     flex-direction: row;
