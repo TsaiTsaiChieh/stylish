@@ -1,4 +1,5 @@
 checkToken();
+logout();
 // updataProfile();
 function checkToken() {
     const token = sessionStorage.getItem('token');
@@ -39,4 +40,12 @@ req.open('get', '/api/1/user/profile');
 req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 req.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
 req.send();
+}
+
+function logout() {
+    const logout_btn = document.getElementsByClassName('logout')[0];
+    logout_btn.addEventListener('click', function() {
+        sessionStorage.removeItem('token');
+        window.location.href = 'index.html';
+    });
 }
