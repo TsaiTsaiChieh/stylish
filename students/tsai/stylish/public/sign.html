@@ -125,8 +125,12 @@
                     // document.getElementsByClassName("message")[1].innerHTML = xmlhttp.responseText;
                     document.getElementsByClassName("message")[1].innerHTML = '請輸入正確的帳號密碼';
                 }
-                else if (this.status == 200) {
+                else if (this.readyState == 4 & this.status === 200) {
+                    var res = JSON.parse(xmlhttp.responseText);
+                    const token = res.data.access_token;
+                    sessionStorage.setItem('token', token);
                     document.getElementsByClassName("message")[1].innerHTML = '登入成功';
+                    window.location.href = 'index.html';
                 }
             }
             xmlhttp.send(JSON.stringify({ provider, email, password }));
@@ -153,8 +157,12 @@
                     // document.getElementsByClassName("message")[1].innerHTML = xmlhttp.responseText;
                     document.getElementsByClassName("message")[0].innerHTML = '電子郵件已被註冊過，請更換';
                 }
-                else if (this.status == 200) {
+                else if (this.readyState == 4 & this.status == 200) {
+                    var res = JSON.parse(xmlhttp.responseText);
+                    const token = res.data.access_token;
+                    sessionStorage.setItem('token', token);
                     document.getElementsByClassName("message")[0].innerHTML = '註冊成功';
+                    window.location.href = 'index.html';
                 }
             }
             xmlhttp.send(JSON.stringify({ name, email, password, picture }));

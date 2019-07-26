@@ -7,7 +7,7 @@ function statusChangeCallback(response) {
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
         // Logged into your app and Facebook.
-        testAPI();
+        // testAPI();
     } else {
         // The person is not logged into your app or we are unable to tell.
         // document.getElementById('status').innerHTML = 'Please log ' +
@@ -22,7 +22,6 @@ function checkLoginState() {
     FB.getLoginStatus(function (response) { // 觸發對 Facebook 的呼叫來取得登入狀態
         statusChangeCallback(response);
         // console.log(response);
-
         // my code here:
         const provider = 'facebook';
         const fb_id = response.authResponse.userID;
@@ -31,6 +30,15 @@ function checkLoginState() {
         // Front End send facebook access token to User Sign In API supported by backend.
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("POST", "/admin/signin");
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 & this.status === 200) {
+                var res = JSON.parse(xmlhttp.responseText);
+                const token = res.data.access_token;
+                sessionStorage.setItem('token', token);
+                document.getElementsByClassName("message")[1].innerHTML = 'FB 登入成功';
+                window.location.href = 'index.html';
+            }
+        }
         xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xmlhttp.send(JSON.stringify({ provider, fb_id, fb_token }));
 

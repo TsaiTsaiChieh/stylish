@@ -228,25 +228,11 @@
 
                 const prime = result.card.prime;
 
-                // get product list
-                // var products = [];
-                // var productList = document.getElementsByClassName('product');
+
                 var subtotal = 1299;
                 var freight = 60;
                 var total = subtotal + freight;
-                // for (let i = 0; i < productList.length; i++) {
-                //     if (productList[i].checked) {
-                //         products.push(productList[i].value);
-                //         subtotal += parseInt(products[i].replace(/\s+/g, "").split(',')[1].replace('price:', ""));
-                //     }
-                // }
-                // if (subtotal >= 1000) { // 我們一千免運!
-                //     total = subtotal;
-                // }
-                // else {
-                //     freight = 60;
-                //     total = subtotal + freight;
-                // }
+                // 訪客資料
                 var recipient = {
                     name: '蔡采潔',
                     phone_number: '+886923456789',
@@ -262,29 +248,6 @@
                 // xmlhttp.setRequestHeader('Authorization', 'Bearer ' + 'ss737f00dccc2e1088ba8d8fcd69a4252dc71eb87dfcaa8c5a3674ba9f99ee2f35');
                 var list = JSON.parse(sessionStorage.getItem('buy_product'));
                 list = [list];
-
-
-                // var list = [{
-                //     id: '3', name: '活力花紋長筒牛仔褲', price: 999,
-                //     color: {
-                //         code: 'DDF0FF', name: '淺藍'
-                //     },
-                //     size: 'M', qty: 1
-                // }];
-                // console.log(list);
-
-
-                // var id = document.getElementsByClassName('id')[0].value;
-                // var name = document.getElementsByClassName('name')[0].value;
-                // var price = document.getElementsByClassName('price')[0].value;
-                // var color_code = document.getElementsByClassName('color_code')[0].value;
-                // var color_name = document.getElementsByClassName('color_name')[0].value;
-                // var size = document.getElementsByClassName('size')[0].value;
-                // var qty = document.getElementsByClassName('qty')[0].value;
-                // var list = [{ id, name, color: { code: color_code, name: color_name }, size, qty }];
-                // const token = document.getElementsByClassName('token')[0].value;
-                // console.log(token);
-
                 list = JSON.stringify(list);
                 var order = { shipping: 'delivery', payment: 'credit_card', subtotal, freight, total, recipient, list };
                 console.log(JSON.stringify({ prime, order }));
@@ -300,8 +263,6 @@
                     }
                     else if (this.status == 200) {
                         const order_id = xmlhttp.responseText;
-
-
                         sessionStorage.setItem('order_id', order_id);
                         // document.getElementsByClassName("message")[0].innerHTML = `交易成功，訂單編號為：${order_id}`;
                         window.location.href = 'thankyou.html';

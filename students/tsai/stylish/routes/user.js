@@ -9,6 +9,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/profile', (req, res) => {
+    console.log('want get the profile');
+
     var { authorization } = req.headers;
     authorization = authorization.replace('Bearer ', '');
 

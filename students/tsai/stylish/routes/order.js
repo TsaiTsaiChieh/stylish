@@ -81,7 +81,6 @@ router.post('/checkout', (req, res) => {
         },
         function (rst1, rst2, next) {
             const order_id = rst1.insertId;
-
             const post_data = {
                 prime,
                 partner_key: 'partner_PHgswvYEk4QY6oy3n8X3CwiQCVQmv91ZcFoD5VrkGFXo8N7BFiLUxzeG',

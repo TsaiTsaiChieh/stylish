@@ -261,7 +261,6 @@ router.post('/admin/signin', (req, res) => {
                                 var id = result2_1[0].id;
                                 next(err2, result2, id);
                             });
-
                         });
 
                     } else { // 若有則 update user name & picture
@@ -274,20 +273,23 @@ router.post('/admin/signin', (req, res) => {
                 function (rst2, id, next) {
                     let sql_insert_token = { user_id: id, access_token, access_expired };
                     db.query(`INSERT INTO token SET ?`, sql_insert_token, (err3, result3) => {
-                        next(err3, result3);
+                        next(err3, result3, id);
                     });
                 }
 
-            ], function (err, result) {
+            ], function (err, result, id) {
                 if (err) throw err;
+
+
+                res.json({
+                    data: {
+                        access_token, access_expired,
+                        user: { id, provider, name, email, picture }
+                    }
+                });
             });
-
         }
-
-
-
     }
-
 });
 
 module.exports = router;
