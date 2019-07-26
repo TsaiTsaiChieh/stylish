@@ -10,7 +10,15 @@ router.get('/', (req, res) => {
 
 router.get('/profile', (req, res) => {
     var { authorization } = req.headers;
+    // if (authorization) authorization = authorization.replace('Bearer ', '');
     authorization = authorization.replace('Bearer ', '');
+    // else {
+    //     console.log('this');
+    //     const err = new Error();
+    //     err.status = 405;
+    //     res.status(err.status);
+    //     res.send({ error: 'Guest.' });
+    // }
 
     let sql_search_user = `SELECT u.*, IF(TIMESTAMPDIFF(SECOND, t.created, CURRENT_TIMESTAMP)>t.access_expired,'YES','NO') AS expired_result FROM user AS u LEFT JOIN token AS t ON u.id = t.user_id WHERE t.access_token = '${authorization}'`;
     db.query(sql_search_user, (err, result) => {

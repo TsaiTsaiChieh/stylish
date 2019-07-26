@@ -16,8 +16,9 @@ router.post('/checkout', (req, res) => {
     const { prime } = req.body;
     var { order } = req.body;
     var { authorization } = req.headers;
+
     // var authorization = req.body.token;
-    authorization = authorization.replace('Bearer ', '');
+    if (authorization) authorization = authorization.replace('Bearer ', '');
     var p = JSON.parse(order.list);
     var p = p[0];
 
@@ -41,10 +42,12 @@ router.post('/checkout', (req, res) => {
                     }
                     else if (result1[0].expired_result == 'NO') { // token 未過期則插入訂單資料
                         console.log('token 還沒過期');
+
+
                         let order_record = {
                             user_id: result1[0].user_id, shipping: order.shipping, payment: order.payment,
                             subtotal: order.subtotal, freight: order.freight, total: order.total,
-                            recipient: order.list, status: 'unpaid'
+                            recipient: JSON.stringify(order.recipient), status: 'unpaid'
                         };
                         db.query(`INSERT INTO order_record SET ?`, order_record, (err1, result1) => {
                             let order_list = {
@@ -122,11 +125,10 @@ router.post('/checkout', (req, res) => {
                 });
             } else {
                 db.query(`INSERT INTO payment SET ?`, payment, (err3, result3) => {
-
                     const err = new Error('Payment failed.');
                     err.status = 400;
                     res.status(err.status);
-                    res.send({ error: "Wrong Request: payment failed." });
+                    res.json({ error: `${rst2.msg}` });
                 });
             }
         }

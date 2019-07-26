@@ -1,5 +1,6 @@
 checkToken();
 logout();
+// guestMessage();
 // updataProfile();
 function checkToken() {
     const token = sessionStorage.getItem('token');
@@ -49,3 +50,14 @@ function logout() {
         window.location.href = 'index.html';
     });
 }
+
+// function guestMessage() {
+//     var req = new XMLHttpRequest ();
+//     req.onreadystatechange = function() {
+//         if (res.readyState == 4 & req.status === 405) {
+//             let msg = document.getElementsByClassName('profile')[0].getElementsByTagName('h2')[0];
+//             console.log(msg);
+            
+//         }
+//     };
+// }

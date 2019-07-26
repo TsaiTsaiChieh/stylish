@@ -19,7 +19,6 @@
             padding: 5px;
         }
 
-
         input {
             margin-right: 10px;
             width: 20em;
@@ -37,15 +36,49 @@
             border: none;
         }
 
+        .wrap {
+            display: flex;
+            flex-wrap: auto;
+            flex-direction: row;
+            width: 50%;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
         #payment {
-            height: calc(100vh - 510px);
-            width: 80%;
+            /* height: calc(100vh - 510px); */
+            /* width: 80%; */
+            flex-basis: 50%;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            margin: 3% auto;
+            margin-top: 3%;
+            margin-bottom: 3%;
             align-items: center;
+        }
 
+        #recipient {
+            flex-basis: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 3%;
+            margin-right: auto;
+        }
+
+        #recipient label {
+            margin-bottom: 1%;
+            margin-top: 1%;
+            font-size: 16px;
+            /* padding: 0; */
+            width: 30%;
+
+        }
+
+        #recipient input {
+            padding: 0;
+            height: 2.2em;
         }
     </style>
     <script src="https://js.tappaysdk.com/tpdirect/v5.1.0"></script>
@@ -81,7 +114,7 @@
                 <a href="#" class="cart">
                     <div class="cart-qty">0</div>
                 </a>
-                <div class="member"><img src="images/member.png" alt="member"></div>
+                <div class="member"><a href="profile.html"><img src="images/member.png" alt="member"></a></div>
             </div>
         </div>
     </nav>
@@ -89,24 +122,34 @@
     <!-- header 選單 End -->
     <!-- payment Begin -->
     <!-- <div style="width: 80%; margin: 50px auto;"> -->
-    <div id="payment">
-        <h3>付款資料</h3>
-        <label>信用卡號碼
-            <div class="tpfield" id="card-number"></div></label>
-        <label>
-            有效期限
-            <div class="tpfield" id="card-expiration-date"></div>
-        </label>
-        <label>
-            安全碼
-            <div class="tpfield" id="card-ccv"></div>
-        </label>
+    <div class="wrap">
+        <div id="recipient">
+            <h3>收件人資訊 (* 為必填)</h3>
+            <label>姓名*</label><input type="text" class="name">
+            <label>手機電話*</label><input type="text" class="phone_number">
+            <label>電子郵件*</label><input type="text" class="email">
+            <label>地址*</label><input type="text" class="address">
+        </div>
 
-        <!-- <label>Token<input type="token" class="token"></label> -->
-        <div class="message"></div>
-        <!-- 觸發 GetPrime 的按鈕 -->
-        <button id="submit-button" onclick="onClick()">確認付款
-        </button>
+        <div id="payment">
+            <h3>付款資料</h3>
+            <label>信用卡號碼
+                <div class="tpfield" id="card-number"></div></label>
+            <label>
+                有效期限
+                <div class="tpfield" id="card-expiration-date"></div>
+            </label>
+            <label>
+                安全碼
+                <div class="tpfield" id="card-ccv"></div>
+            </label>
+
+            <!-- <label>Token<input type="token" class="token"></label> -->
+            <div class="message"></div>
+            <!-- 觸發 GetPrime 的按鈕 -->
+            <button id="submit-button" onclick="onClick()">確認付款
+            </button>
+        </div>
     </div>
 
     <!-- </div> -->
@@ -227,24 +270,39 @@
                 }
 
                 const prime = result.card.prime;
-
-
                 var subtotal = 1299;
                 var freight = 60;
                 var total = subtotal + freight;
-                // 訪客資料
+
+                const token = sessionStorage.getItem('token');
+                // const a = document.getElementsByClassName('name')[0].value;
+                // if (token == null) {
+                const name = document.getElementsByClassName('name')[0].value;
+                let phone_number = document.getElementsByClassName('phone_number')[0].value;
+                const email = document.getElementsByClassName('email')[0].value;
+                const address = document.getElementsByClassName('address')[0].value;
                 var recipient = {
-                    name: '蔡采潔',
-                    phone_number: '+886923456789',
-                    email: 'jecica196@gmail.com',
-                    address: '市政府站',
+                    name,
+                    phone_number,
+                    email,
+                    address,
                     time: 'morning'
                 };
+
+                // }
+                // var recipient = {
+                //     name: '蔡采潔',
+                //     phone_number: '+886923456789',
+                //     email: 'jecica196@gmail.com',
+                //     address: '市政府站',
+                //     time: 'morning'
+                // };
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("POST", "/api/1/order/checkout");
                 xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                if (token != null) xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
                 // set header 比較好測試
-                xmlhttp.setRequestHeader('Authorization', 'Bearer ' + '737f00dccc2e1088ba8d8fcd69a4252dc71eb87dfcaa8c5a3674ba9f99ee2f35');
+                // xmlhttp.setRequestHeader('Authorization', 'Bearer ' + '737f00dccc2e1088ba8d8fcd69a4252dc71eb87dfcaa8c5a3674ba9f99ee2f35');
                 // xmlhttp.setRequestHeader('Authorization', 'Bearer ' + 'ss737f00dccc2e1088ba8d8fcd69a4252dc71eb87dfcaa8c5a3674ba9f99ee2f35');
                 var list = JSON.parse(sessionStorage.getItem('buy_product'));
                 list = [list];
@@ -253,15 +311,16 @@
                 console.log(JSON.stringify({ prime, order }));
                 xmlhttp.onreadystatechange = function () {
 
-                    if (this.status === 404) {
+                    if (xmlhttp.readyState == 4 & this.status === 404) {
                         // document.getElementsByClassName("message")[1].innerHTML = xmlhttp.responseText;
                         // document.getElementsByClassName("message")[0].innerHTML = '無效 Token，請重新登入！';
                         window.location.href = 'sign.html';
                     }
-                    else if (this.status === 400) {
-                        document.getElementsByClassName("message")[0].innerHTML = '交易失敗！';
+                    else if (xmlhttp.readyState == 4 & this.status === 400) {
+                        const error = JSON.parse(xmlhttp.responseText);
+                        document.getElementsByClassName("message")[0].innerHTML = `交易失敗！錯誤訊息為 ${error.error}`;
                     }
-                    else if (this.status == 200) {
+                    else if (xmlhttp.readyState == 4 & this.status == 200) {
                         const order_id = xmlhttp.responseText;
                         sessionStorage.setItem('order_id', order_id);
                         // document.getElementsByClassName("message")[0].innerHTML = `交易成功，訂單編號為：${order_id}`;
