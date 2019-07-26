@@ -38,6 +38,7 @@
         }
 
         #payment {
+            height: calc(100vh - 510px);
             width: 80%;
             display: flex;
             flex-direction: column;
@@ -109,10 +110,10 @@
     </div>
 
     <!-- </div> -->
-    <!-- footer Begin -->
 
 
-    <!-- footer Begin -->
+
+
 
 
 
@@ -258,6 +259,7 @@
                 xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
                 // set header 比較好測試
                 xmlhttp.setRequestHeader('Authorization', 'Bearer ' + '737f00dccc2e1088ba8d8fcd69a4252dc71eb87dfcaa8c5a3674ba9f99ee2f35');
+                // xmlhttp.setRequestHeader('Authorization', 'Bearer ' + 'ss737f00dccc2e1088ba8d8fcd69a4252dc71eb87dfcaa8c5a3674ba9f99ee2f35');
                 var list = JSON.parse(sessionStorage.getItem('buy_product'));
                 list = [list];
 
@@ -290,14 +292,19 @@
 
                     if (this.status === 404) {
                         // document.getElementsByClassName("message")[1].innerHTML = xmlhttp.responseText;
-                        document.getElementsByClassName("message")[0].innerHTML = '無效 Token，請重新登入！';
+                        // document.getElementsByClassName("message")[0].innerHTML = '無效 Token，請重新登入！';
+                        window.location.href = 'sign.html';
                     }
                     else if (this.status === 400) {
                         document.getElementsByClassName("message")[0].innerHTML = '交易失敗！';
                     }
                     else if (this.status == 200) {
                         const order_id = xmlhttp.responseText;
-                        document.getElementsByClassName("message")[0].innerHTML = `交易成功，訂單編號為：${order_id}`;
+
+
+                        sessionStorage.setItem('order_id', order_id);
+                        // document.getElementsByClassName("message")[0].innerHTML = `交易成功，訂單編號為：${order_id}`;
+                        window.location.href = 'thankyou.html';
                     }
                 }
                 // xmlhttp.send(JSON.stringify({ prime, order, token }));
@@ -335,6 +342,7 @@
         // console.log(a);
 
     </script>
+    <!-- footer Begin -->
     <footer class="page-footer font-small mdb-color darken-3 pt-4">
         <div class="view">
             <p class="text-item">關於 Stylish</p>

@@ -123,7 +123,7 @@ router.post('/checkout', (req, res) => {
                 });
             } else {
                 db.query(`INSERT INTO payment SET ?`, payment, (err3, result3) => {
-                    // console.log(result3);
+
                     const err = new Error('Payment failed.');
                     err.status = 400;
                     res.status(err.status);

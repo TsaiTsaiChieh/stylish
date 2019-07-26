@@ -127,5 +127,18 @@ User:
 金流處理：
 1. 成功則更新 order_list 為 paid，並在 payment 紀錄
 2. 失敗在 payment 紀錄失敗訊息
-
+- - -
+排版
+1. table
+2. CSS float (clearfix)
+3. CSS display: inline-block
+垂直置中 vertical-align
+左右置中 text-align
+4. CSS flexbox
+垂直置中 align-items
+左右置中 justify-content
+5. CSS grid
+- - -
+
+
 

@@ -6,23 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sign</title>
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./stylesheets/index.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            margin-top: 2em;
-            margin-left: 3em;
-
+        .sign {
+            margin-top: 1%;
+            margin-bottom: 2%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h2 {
             margin-bottom: .8em;
-
         }
-
 
         .signin_wrap,
         .signup_wrap {
@@ -34,9 +33,8 @@
         button {
             font-size: 1.2em;
             width: 10em;
-            margin: 1em 0;
+            margin: 1em auto;
             padding: .3em 0;
-            /* border-radius: .5em; */
             color: #fff;
             background: #000;
             border: none;
@@ -77,6 +75,37 @@
 
 
 <body>
+    <!-- header 選單 Begin -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="index.html">
+            <img src="images/logo.png" alt="Logo" class="logo"></a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">女裝</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">男裝</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">配件</a>
+                </li>
+            </ul>
+            <div class="feature">
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2 search" type="search">
+                </form>
+                <a href="#" class="cart">
+                    <div class="cart-qty">0</div>
+                </a>
+                <div class="member"><img src="images/member.png" alt="member"></div>
+            </div>
+        </div>
+    </nav>
+    <nav class="mobile"></nav>
+    <!-- header 選單 End -->
     <script>
         function sign_in() {
             // var provider = document.querySelector('input[name="provider"]:checked').value;
@@ -167,6 +196,23 @@
 
         </div>
     </div>
+    <!-- footer Begin -->
+    <footer class="page-footer font-small mdb-color darken-3 pt-4">
+        <div class="view">
+            <p class="text-item">關於 Stylish</p>
+            <p class="text-item">服務條款</p>
+            <p class="text-item">隱私政策</p>
+            <p class="text-item">聯絡我們</p>
+            <p class="text-item">FQA</p>
+            <div class="icon-wrap">
+                <a href="#"><img src="images/line.png" alt="line"></a>
+                <a href="#"><img src="images/twitter.png" alt="twitter"></a>
+                <a href="#"><img src="images/facebook.png" alt="facebook"></a>
+            </div>
+            <p class="text-item">&copy; All rights reserved.</p>
+        </div>
+    </footer>
+    <!-- Footer End-->
 </body>
 
 </html>
