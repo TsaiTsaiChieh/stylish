@@ -5,7 +5,7 @@ function productInformation(container) {
     const id = urlParams.get('id');
     var req = new XMLHttpRequest();
     req.onreadystatechange = function () {
-        if (req.readyState === 4) {
+        if (req.readyState === 4 & req.status === 200) {
             const brown_color = '#8b572a'
             var res = JSON.parse(req.responseText);
             // createElement
@@ -162,6 +162,11 @@ function productInformation(container) {
 
 
             });
+        }
+        //當 user 輸入無效 product id 時，導入 index.html 頁面
+        else if (req.status === 404) {
+            window.location.href = 'index.html';
+
         }
     }
 

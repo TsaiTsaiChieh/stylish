@@ -417,7 +417,14 @@ router.get('/details', (req, res) => {
         function (next) {
             db.query(`SELECT DISTINCT p.id, p.category, p.title, p.description, p.price, p.texture, p.wash, p.place, p.note, p.story, p.sizes,p.main_image, p.images
               FROM product AS p LEFT JOIN variant AS v ON v.product_id=p.id WHERE p.id=${id}`, function (err1, result1) {
-                    next(err1, result1); //將結果傳入callback
+                    if (result1.length == 0) { // 當 user 輸入的商品 id 不存在
+
+                        const err = new Error('Invalid token');
+                        err.status = 404;
+                        res.status(err.status);
+                        res.send({ error: "Wrong id" });
+                    }
+                    else next(err1, result1); //將結果傳入callback
                 });
         },
         function (next) {
