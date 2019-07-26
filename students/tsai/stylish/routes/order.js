@@ -15,9 +15,9 @@ router.get('/', (req, res) => {
 router.post('/checkout', (req, res) => {
     const { prime } = req.body;
     var { order } = req.body;
-    // var { authorization } = req.headers;
-    var authorization = req.body.token;
-    // authorization = authorization.replace('Bearer ', '');
+    var { authorization } = req.headers;
+    // var authorization = req.body.token;
+    authorization = authorization.replace('Bearer ', '');
     var p = JSON.parse(order.list);
     var p = p[0];
 

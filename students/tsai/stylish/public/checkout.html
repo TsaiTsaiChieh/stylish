@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Checkout</title>
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./stylesheets/index.css">
     <style>
         .tpfield {
             height: 40px;
@@ -15,50 +19,32 @@
             padding: 5px;
         }
 
-        /* Bootstrap 的 focus style */
-        .tappay-field-focus {
-            border-color: #66afe9;
-            outline: 0;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
-        }
 
         input {
             margin-right: 10px;
             width: 20em;
             font-size: 1em;
-
             line-height: 1.5em;
-        }
-
-        .product_wrap {
-            margin-bottom: 1.5em;
-            display: flex;
-            flex-direction: column;
-            line-height: 2em;
-
         }
 
         button {
             font-size: 1.2em;
-            width: 10em;
-            margin: 1em 0;
-            padding: .3em 0;
-            /* border-radius: .5em; */
+            width: 300px;
+            margin: 2% 0;
+            padding: .4em 0;
             color: #fff;
             background: #000;
             border: none;
         }
 
-        .colors_wrap {
-            font-size: 1em;
+        #payment {
+            width: 80%;
             display: flex;
-            flex-direction: row;
-            margin-top: 1em
-        }
+            flex-direction: column;
+            justify-content: center;
+            margin: 3% auto;
+            align-items: center;
 
-        .colors_wrap input {
-            width: 7em;
         }
     </style>
     <script src="https://js.tappaysdk.com/tpdirect/v5.1.0"></script>
@@ -69,42 +55,66 @@
 
 
 <body>
-    <div style="width: 80%; margin: 50px auto;">
-        <div class="product_wrap">
-            <!-- <h3>填寫商品</h3>
-            <label>Product id</label><input type="text" class='id'>
-            <label>Name</label><input type="text" class='name'>
-            <label>Price</label><input type="text" class='price'>
-            <div class="colors_wrap">
-                <label>Name</label><input type="text" class="color_name">
-                <label>Code</label><input type="text" class="color_code">
+    <!-- header 選單 Begin -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="index.html">
+            <img src="images/logo.png" alt="Logo" class="logo"></a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">女裝</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">男裝</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">配件</a>
+                </li>
+            </ul>
+            <div class="feature">
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2 search" type="search">
+                </form>
+                <a href="#" class="cart">
+                    <div class="cart-qty">0</div>
+                </a>
+                <div class="member"><img src="images/member.png" alt="member"></div>
             </div>
-            <label>Size</label><input type="text" class='size'>
-            <label>Qty</label><input type="text" class='qty'> -->
         </div>
-        <HR>
-        <div id="payment">
-            <h3>付款資料</h3>
-            <label>信用卡號碼
-                <div class="tpfield" id="card-number"></div>
-            </label>
-            <label>
-                有效期限
-                <div class="tpfield" id="card-expiration-date"></div>
-            </label>
-            <label>
-                安全碼
-                <div class="tpfield" id="card-ccv"></div>
-            </label>
-        </div>
-        <label>Token<input type="token" class="token"></label>
+    </nav>
+    <nav class="mobile"></nav>
+    <!-- header 選單 End -->
+    <!-- payment Begin -->
+    <!-- <div style="width: 80%; margin: 50px auto;"> -->
+    <div id="payment">
+        <h3>付款資料</h3>
+        <label>信用卡號碼
+            <div class="tpfield" id="card-number"></div></label>
+        <label>
+            有效期限
+            <div class="tpfield" id="card-expiration-date"></div>
+        </label>
+        <label>
+            安全碼
+            <div class="tpfield" id="card-ccv"></div>
+        </label>
+
+        <!-- <label>Token<input type="token" class="token"></label> -->
         <div class="message"></div>
         <!-- 觸發 GetPrime 的按鈕 -->
         <button id="submit-button" onclick="onClick()">確認付款
         </button>
-
-
     </div>
+
+    <!-- </div> -->
+    <!-- footer Begin -->
+
+
+    <!-- footer Begin -->
+
+
 
     <script>
 
@@ -247,7 +257,7 @@
                 xmlhttp.open("POST", "/api/1/order/checkout");
                 xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
                 // set header 比較好測試
-                // xmlhttp.setRequestHeader('Authorization', 'Bearer ' + '737f00dccc2e1088ba8d8fcd69a4252dc71eb87dfcaa8c5a3674ba9f99ee2f35');
+                xmlhttp.setRequestHeader('Authorization', 'Bearer ' + '737f00dccc2e1088ba8d8fcd69a4252dc71eb87dfcaa8c5a3674ba9f99ee2f35');
                 var list = JSON.parse(sessionStorage.getItem('buy_product'));
                 list = [list];
 
@@ -270,8 +280,8 @@
                 // var size = document.getElementsByClassName('size')[0].value;
                 // var qty = document.getElementsByClassName('qty')[0].value;
                 // var list = [{ id, name, color: { code: color_code, name: color_name }, size, qty }];
-                const token = document.getElementsByClassName('token')[0].value;
-                console.log(token);
+                // const token = document.getElementsByClassName('token')[0].value;
+                // console.log(token);
 
                 list = JSON.stringify(list);
                 var order = { shipping: 'delivery', payment: 'credit_card', subtotal, freight, total, recipient, list };
@@ -290,7 +300,8 @@
                         document.getElementsByClassName("message")[0].innerHTML = `交易成功，訂單編號為：${order_id}`;
                     }
                 }
-                xmlhttp.send(JSON.stringify({ prime, order, token }));
+                // xmlhttp.send(JSON.stringify({ prime, order, token }));
+                xmlhttp.send(JSON.stringify({ prime, order }));
             })
         }
 
@@ -324,7 +335,22 @@
         // console.log(a);
 
     </script>
-
+    <footer class="page-footer font-small mdb-color darken-3 pt-4">
+        <div class="view">
+            <p class="text-item">關於 Stylish</p>
+            <p class="text-item">服務條款</p>
+            <p class="text-item">隱私政策</p>
+            <p class="text-item">聯絡我們</p>
+            <p class="text-item">FQA</p>
+            <div class="icon-wrap">
+                <a href="#"><img src="images/line.png" alt="line"></a>
+                <a href="#"><img src="images/twitter.png" alt="twitter"></a>
+                <a href="#"><img src="images/facebook.png" alt="facebook"></a>
+            </div>
+            <p class="text-item">&copy; All rights reserved.</p>
+        </div>
+    </footer>
+    <!-- Footer End-->
 </body>
 
 </html>
