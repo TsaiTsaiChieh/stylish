@@ -1,11 +1,11 @@
 const product_container = document.getElementsByClassName('product_container')[0];
 const carousel = document.getElementsByClassName('carousel')[0];
 const page = document.getElementById('page');
-const women_link = document.getElementsByClassName('nav-link')[0];
+const accessories_link = document.getElementsByClassName('nav-link')[2];
 const urlParams = new URLSearchParams(window.location.search);
 const paging = urlParams.get('paging');
 attachBannerList(carousel);
-attachWomenList(product_container);
+attachAccessoriesList(product_container);
 attachPaging(page);
 
 function attachBannerList(carousel) {
@@ -60,9 +60,9 @@ function attachBannerList(carousel) {
     req.open('get', '/api/1/marketing/campaigns');
     req.send();
 }
-function attachWomenList(product_container) {
+function attachAccessoriesList(product_container) {
     const brown_color = '#8b572a'
-    women_link.style.color = brown_color;
+    accessories_link.style.color = brown_color;
     var req = new XMLHttpRequest();
     req.onreadystatechange = function () {
         if (req.readyState === 4) {
@@ -110,10 +110,10 @@ function attachWomenList(product_container) {
         }
         //當 user 輸入無效 product id 時，導入 index.html 頁面
         else if (req.status === 404) {
-            window.location.href = 'women.html?paging=0';
+            window.location.href = 'accessories.html?paging=0';
         }
     };
-    req.open('get', `/api/1/products/women?paging=${paging}`);
+    req.open('get', `/api/1/products/accessories?paging=${paging}`);
     req.send();
 }
 function attachPaging(page) {
@@ -132,14 +132,14 @@ function attachPaging(page) {
                 page_link.setAttribute('class', 'page-link');
                 if (i == paging) page_item.setAttribute('class', 'page-item active');
                 page_link.innerHTML = i + 1;
-                page_link.href = `women.html?paging=${i}`;
+                page_link.href = `accessories.html?paging=${i}`;
                 page_item.appendChild(page_link);
                 pagination.appendChild(page_item);
             }
 
         }
     };
-    req.open('get', '/api/1/products/getCount?category=women');
+    req.open('get', '/api/1/products/getCount?category=accessories');
     req.send();
     page.append(pagination);
 }

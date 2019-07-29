@@ -183,7 +183,7 @@ router.get('/women', (req, res) => {
 router.get('/men', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
-    var show_num = 1;
+    var show_num = 3;
     // default paging = 0
     if (!paging) {
         paging = 0;
@@ -270,7 +270,7 @@ router.get('/men', (req, res) => {
 router.get('/accessories', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
-    var show_num = 1;
+    var show_num = 3;
     // default paging = 0
     if (!paging) {
         paging = 0;
