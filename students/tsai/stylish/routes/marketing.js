@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../public/js/db');
 const async = require('async');
-// const NodeCache = require("node-cache");
-// const cache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 const cache = require('global-cache');
 
 router.get('/', (req, res) => {

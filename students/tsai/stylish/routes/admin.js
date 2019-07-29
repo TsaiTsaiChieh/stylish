@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const async = require("async"); //npm install --save async
 const body_parser = require('body-parser');
 const request = require('request'); // npm install request
+const cache = require('global-cache');
 
 router.use(body_parser.urlencoded({ extended: false }));
 router.use(body_parser.json());
@@ -91,7 +92,7 @@ var storage_campaigns = multer.diskStorage({
 });
 var campaigns = multer({ storage: storage_campaigns }); // 設定添加到 multer 對象
 // var campaignLoad = campaigns.fields([{ name: 'picture', maxCount: 1 }]);
-const cache = require('global-cache');
+
 router.post('/admin/campaign.html', campaigns.single('picture'), (req, res) => {
     const { product_id } = req.body;
     // Picture URL is http://localhost/campaigns/filename.jpg

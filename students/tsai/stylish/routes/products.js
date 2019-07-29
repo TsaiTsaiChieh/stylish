@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 var async = require("async"); //npm install --save async
 const db = require('../public/js/db');
-
+const cache = require('global-cache');
 router.get('/', (req, res) => {
     res.send('products');
 });
@@ -415,6 +415,17 @@ router.get('/details', (req, res) => {
     if (!id) id = 1; // 避免網頁掛掉
     async.series([
         function (next) {
+            // First, check the cache
+            value = cache.get(`details_key_${id}`);
+            if (value) {
+                var data = { data: value };
+                res.json(data);
+            }
+            else {
+                next(null);
+            }
+        },
+        function (next) {
             db.query(`SELECT DISTINCT p.id, p.category, p.title, p.description, p.price, p.texture, p.wash, p.place, p.note, p.story, p.sizes,p.main_image, p.images
               FROM product AS p LEFT JOIN variant AS v ON v.product_id=p.id WHERE p.id=${id}`, function (err1, result1) {
                     if (result1.length == 0) { // 當 user 輸入的商品 id 不存在
@@ -444,27 +455,27 @@ router.get('/details', (req, res) => {
         var c = [];
         var v = [];
         // color format
-        for (let i = 0; i < results[0].length; i++) {
+        for (let i = 0; i < results[1].length; i++) {
             c[i] = [];
-            for (let j = 0; j < results[1].length; j++) {
-                if (results[1][j].id == results[0][i].id)
-                    c[i].push({ code: results[1][j].code, name: results[1][j].name });
+            for (let j = 0; j < results[2].length; j++) {
+                if (results[2][j].id == results[2][i].id)
+                    c[i].push({ code: results[2][j].code, name: results[2][j].name });
 
             }
         }
         // varient format
-        for (let i = 0; i < results[0].length; i++) {
+        for (let i = 0; i < results[1].length; i++) {
             v[i] = [];
-            for (let j = 0; j < results[2].length; j++) {
-                if (results[2][j].product_id == results[0][i].id)
-                    v[i].push({ color_code: results[2][j].color_code, size: results[2][j].size, stock: results[2][j].stock });
+            for (let j = 0; j < results[3].length; j++) {
+                if (results[3][j].product_id == results[1][i].id)
+                    v[i].push({ color_code: results[3][j].color_code, size: results[3][j].size, stock: results[3][j].stock });
 
             }
         }
 
         var data_array = [];
-        for (let i = 0; i < results[0].length; i++) {
-            p = results[0][i];
+        for (let i = 0; i < results[1].length; i++) {
+            p = results[1][i];
 
             temp = {
                 id: p.id, category: p.category, title: p.title, price: p.price, texture: p.texture, wash: p.wash,
@@ -474,6 +485,8 @@ router.get('/details', (req, res) => {
             data_array.push(temp);
         }
         var data = { data: data_array };
+        // store in the cache
+        cache.set(`details_key_${id}`, data);
         res.json(data);
 
     });
@@ -489,7 +502,6 @@ router.use((req, res, next) => {
 router.use((err, req, res, next) => {
     res.locals.error = err;
     res.status(err.status);
-
     res.send({ error: "Invalid token." });
 });
 module.exports = router;
