@@ -92,7 +92,7 @@ router.get('/all', (req, res) => {
 router.get('/women', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
-    var show_num = 1;
+    var show_num = 3;
     // default paging = 0
     if (!paging) {
         paging = 0;
@@ -102,7 +102,13 @@ router.get('/women', (req, res) => {
         function (next) {
             db.query(`SELECT DISTINCT p.id, p.category, p.title, p.description, p.price, p.texture, p.wash, p.place, p.note, p.story, p.sizes,p.main_image, p.images
               FROM product AS p LEFT JOIN variant AS v ON v.product_id=p.id WHERE category='women' LIMIT ${start},${show_num}`, function (err1, result1) {
-                    next(err1, result1); //將結果傳入callback
+                    if (result1.length == 0) { // 當無此 id 回傳錯誤
+                        const err = new Error();
+                        err.status = 404;
+                        res.status(err.status);
+                        res.send({ error: "Wrong id" });
+                    }
+                    else next(err1, result1); //將結果傳入callback
                 });
         },
         function (next) {
@@ -491,6 +497,16 @@ router.get('/details', (req, res) => {
 
     });
 
+});
+
+router.get('/getCount', (req, res) => {
+    var { category } = req.query;
+    if (!category) category = 'women';
+    db.query(`SELECT COUNT(id) AS count FROM product WHERE category = '${category}'`, (err, result) => {
+        // if (err) throw err;
+        // console.log(result[0].count);
+        res.json({ count: result[0].count });
+    });
 });
 // Invalid token.
 router.use((req, res, next) => {

@@ -1,7 +1,12 @@
 const product_container = document.getElementsByClassName('product_container')[0];
 const carousel = document.getElementsByClassName('carousel')[0];
+const page = document.getElementById('page');
+const urlParams = new URLSearchParams(window.location.search);
+const paging = urlParams.get('paging');
 attachBannerList(carousel);
-attachProductList(product_container);
+attachWomenList(product_container);
+attachPaging(page);
+// test();
 // localStorage.setItem("lastname", "Smith");
 
 function attachBannerList(carousel) {
@@ -56,12 +61,11 @@ function attachBannerList(carousel) {
     req.open('get', '/api/1/marketing/campaigns');
     req.send();
 }
-function attachProductList(product_container) {
+function attachWomenList(product_container) {
     var req = new XMLHttpRequest();
     req.onreadystatechange = function () {
         if (req.readyState === 4) {
             var res = JSON.parse(req.responseText);
-            // var paging = res.paging;
 
             for (let i = 0; i < Object.keys(res.data).length; i++) {
                 // create elememt
@@ -78,7 +82,7 @@ function attachProductList(product_container) {
                 card.className = 'card';
                 card_img_top.className = 'card-img-top';
                 card_img_top.src = '../uploads/' + res.data[i].main_image;
-                link.href = `/admin/products.html?id=${res.data[i].id}`;
+                // link.href = `/admin/products.html?id=${res.data[i].id}`;
                 card_body.className = 'card-body';
                 colors.className = 'colors';
 
@@ -103,12 +107,67 @@ function attachProductList(product_container) {
                 product_container.appendChild(card);
             }
         }
+        //當 user 輸入無效 product id 時，導入 index.html 頁面
+        else if (req.status === 404) {
+            window.location.href = 'women.html?paging=0';
+        }
     };
-    req.open('get', '/api/1/products/all');
+    req.open('get', `/api/1/products/women?paging=${paging}`);
     req.send();
 }
+function attachPaging(page) {
+    var show_num = 3;
+    let pagination = document.createElement('ul');
+    let page_item = document.createElement('li');
 
+    // set attribute
+    pagination.setAttribute('class', 'pagination');
+    page_item.setAttribute('aria-current', 'page');
 
+    // append child
 
+    pagination.append(page_item);
 
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function () {
+        if (req.readyState == 4) {
+            var { count } = JSON.parse(req.responseText);
+            for (let i = 0; i < Math.ceil(count / show_num); i++) {
+                let page_link = document.createElement('a');
+                let page_item = document.createElement('li');
+                page_item.setAttribute('class', 'page-item');
+                page_link.setAttribute('class', 'page-link');
+                if (i == paging) page_item.setAttribute('class', 'page-item active');
+                page_link.innerHTML = i + 1;
+                page_link.href = `women.html?paging=${i}`;
+                page_item.appendChild(page_link);
+                pagination.appendChild(page_item);
+            }
 
+        }
+    };
+    req.open('get', '/api/1/products/getCount?category=women');
+    req.send();
+    page.append(pagination);
+}
+// function test() {
+//     var req = new XMLHttpRequest();
+//     req.onreadystatechange = function () {
+//         if (req.readyState == 4 & req.status == 200) {
+//             var pageFlag = true;
+//             var pageCount = 0;
+//             var res = JSON.parse(req.responseText);
+//             var { paging } = res;
+//             do {
+//                 if (paging) {
+//                     pageCount++;
+//                     console.log(pageCount);
+//                 } else {
+
+//                 }
+//             } while (pageFlag)
+//         }
+//     };
+//     req.open('get', `/api/1/products/women?paging=0`);
+//     req.send();
+// }
