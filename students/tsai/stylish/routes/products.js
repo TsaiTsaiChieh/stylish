@@ -21,7 +21,13 @@ router.get('/all', (req, res) => {
         function (next) {
             db.query(`SELECT DISTINCT p.id, p.category, p.title, p.description, p.price, p.texture, p.wash, p.place, p.note, p.story, p.sizes,p.main_image, p.images
               FROM product AS p LEFT JOIN variant AS v ON v.product_id=p.id LIMIT ${start},${show_num}`, function (err1, result1) {
-                    next(err1, result1); //將結果傳入callback
+                    if (result1.length == 0) { // 當無此 id 回傳錯誤
+                        const err = new Error();
+                        err.status = 404;
+                        res.status(err.status);
+                        res.send({ error: "Wrong id" });
+                    }
+                    else next(err1, result1); //將結果傳入callback
                 });
         },
         function (next) {
@@ -187,7 +193,13 @@ router.get('/men', (req, res) => {
         function (next) {
             db.query(`SELECT DISTINCT p.id, p.category, p.title, p.description, p.price, p.texture, p.wash, p.place, p.note, p.story, p.sizes,p.main_image, p.images
               FROM product AS p LEFT JOIN variant AS v ON v.product_id=p.id WHERE category='men' LIMIT ${start},${show_num}`, function (err1, result1) {
-                    next(err1, result1); //將結果傳入callback
+                    if (result1.length == 0) { // 當無此 id 回傳錯誤
+                        const err = new Error();
+                        err.status = 404;
+                        res.status(err.status);
+                        res.send({ error: "Wrong id" });
+                    }
+                    else next(err1, result1); //將結果傳入callback
                 });
         },
         function (next) {
@@ -268,7 +280,13 @@ router.get('/accessories', (req, res) => {
         function (next) {
             db.query(`SELECT DISTINCT p.id, p.category, p.title, p.description, p.price, p.texture, p.wash, p.place, p.note, p.story, p.sizes,p.main_image, p.images
               FROM product AS p LEFT JOIN variant AS v ON v.product_id=p.id WHERE category='accessories' LIMIT ${start},${show_num}`, function (err1, result1) {
-                    next(err1, result1); //將結果傳入callback
+                    if (result1.length == 0) { // 當無此 id 回傳錯誤
+                        const err = new Error();
+                        err.status = 404;
+                        res.status(err.status);
+                        res.send({ error: "Wrong id" });
+                    }
+                    else next(err1, result1); //將結果傳入callback
                 });
         },
         function (next) {
@@ -435,7 +453,6 @@ router.get('/details', (req, res) => {
             db.query(`SELECT DISTINCT p.id, p.category, p.title, p.description, p.price, p.texture, p.wash, p.place, p.note, p.story, p.sizes,p.main_image, p.images
               FROM product AS p LEFT JOIN variant AS v ON v.product_id=p.id WHERE p.id=${id}`, function (err1, result1) {
                     if (result1.length == 0) { // 當 user 輸入的商品 id 不存在
-
                         const err = new Error('Invalid token');
                         err.status = 404;
                         res.status(err.status);
