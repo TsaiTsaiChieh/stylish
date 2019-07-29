@@ -91,6 +91,7 @@ var storage_campaigns = multer.diskStorage({
 });
 var campaigns = multer({ storage: storage_campaigns }); // 設定添加到 multer 對象
 // var campaignLoad = campaigns.fields([{ name: 'picture', maxCount: 1 }]);
+const cache = require('global-cache');
 router.post('/admin/campaign.html', campaigns.single('picture'), (req, res) => {
     const { product_id } = req.body;
     // Picture URL is http://localhost/campaigns/filename.jpg
@@ -99,8 +100,10 @@ router.post('/admin/campaign.html', campaigns.single('picture'), (req, res) => {
     let campaign = { product_id, picture, story }; // campaign insert data
     let sql_insert_campaign = `INSERT INTO campaign SET ?`;
     db.query(sql_insert_campaign, campaign, (err, result) => {
-        if (err) throw err;
-        else console.log('insert campaign:', result);
+        // if (err) throw err;
+        // else console.log('insert campaign:', result);
+        // 4. If data is updated from database, clear cache.
+        cache.delete("campaigns_key");
     });
     res.send('Add a campaign successfully.');
 
