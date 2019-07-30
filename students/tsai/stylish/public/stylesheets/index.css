@@ -50,11 +50,8 @@ nav.mobile {
     padding-right: 40px;
     border: 1px solid #979797;
     border-radius: 20px;
-    background-image: url(../images/search.png);
-    background-repeat: no-repeat;
-    background-size: 40px 40px;
-    background-position: 98% center;
 }
+
 .feature .search:focus {
     outline:none;
     box-shadow:none;
@@ -65,6 +62,22 @@ nav.mobile {
     margin-left: 50px;
     display: flex;
     align-items: center;
+   
+}
+.feature .search_wrap {
+    display: flex;
+    flex: row;
+    position: relative;
+}
+.feature .search-btn {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-image: url(../images/search.png);
+    position: absolute;
+    background-position: 98% center;
+    top: -1px;
+    right: 12px;
 }
 .feature .cart {
     width: 44px;
@@ -121,6 +134,15 @@ nav.mobile {
     width: 10px;
     margin: 10px;
     background-color: var(--charcoal-grey);
+}
+.msg {
+    display: none;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin-top: 7%;
+    justify-content: center;
 }
 /* product setting */
 .product_container {

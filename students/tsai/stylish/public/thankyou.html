@@ -38,19 +38,20 @@
             <ul class="navbar-nav mr-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="women.html?paging=0">女裝</a>
+                    <a class="nav-link" href="./?category=women&paging=0">女裝</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="men.html?paging=0">男裝</a>
+                    <a class="nav-link" href="./?category=men&paging=0">男裝</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="accessories.html?paging=0">配件</a>
+                    <a class="nav-link" href="./?category=accessories&paging=0">配件</a>
                 </li>
             </ul>
             <div class="feature">
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2 search" type="search">
-                </form>
+                <div class="search_wrap">
+                    <input class="form-control mr-sm-2 search" type="text">
+                    <div class='search-btn'></div>
+                </div>
                 <a href="#" class="cart">
                     <div class="cart-qty">0</div>
                 </a>
@@ -102,7 +103,7 @@
         sessionStorage.removeItem('buy_product');
         sessionStorage.removeItem('order_id'); 
     </script>
-
+    <script src="js/search.js"></script>
 
 </body>
 

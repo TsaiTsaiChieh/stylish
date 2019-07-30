@@ -74,6 +74,8 @@ function productInformation(container) {
             place.setAttribute('class', 'place sub-text');
             // setValue
             card_img.src = '../uploads/' + res.data[0].main_image;
+            console.log(card_img.src);
+
             title.innerHTML = res.data[0].title;
             p_id.innerHTML = res.data[0].id;
             price.innerHTML = 'TWD. ' + res.data[0].price;
@@ -173,5 +175,7 @@ function productInformation(container) {
     req.open('get', `/api/1/products/details?id=${id}`);
     req.send();
 }
+
+
 
 

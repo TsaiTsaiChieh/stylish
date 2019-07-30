@@ -27,6 +27,8 @@ router.get('/campaigns', (req, res) => {
             });
         },
         function (rst1, next) {
+            // console.log('set');
+
             cache.set("campaigns_key", rst1);
             res.json({ data: rst1 });
         },
