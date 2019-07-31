@@ -32,8 +32,8 @@
     <!-- header 選單 Begin -->
     <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand" href="index.html">
-            <img src="images/logo.png" alt="Logo" class="logo"></a>
-
+            <img src="images/logo.png" alt="Logo" class="logo">
+        </a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto">
 
@@ -52,6 +52,7 @@
                     <input class="form-control mr-sm-2 search" type="text">
                     <div class='search-btn'></div>
                 </div>
+
                 <a href="#" class="cart">
                     <div class="cart-qty">0</div>
                 </a>
@@ -59,7 +60,23 @@
             </div>
         </div>
     </nav>
-    <nav class="mobile"></nav>
+    <nav class="mobile">
+        <ul class="mobile_link navbar-nav mr-auto">
+
+            <li class="nav-item">
+                <a class="nav-link" href="./?category=women&paging=0">女裝</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./?category=men&paging=0">男裝</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./?category=accessories&paging=0">配件</a>
+            </li>
+        </ul>
+    </nav>
+    <nav class="bottom">
+        <img class="member" src="images/member-mobile.png"><a class="member_link" href="profile.html">會員</a>
+    </nav>
     <!-- header 選單 End -->
     <div class="thankyou">
         <h1>感謝您的購買</h1>
@@ -91,9 +108,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+
     <script>
         let order_msg = document.getElementsByClassName('order_msg')[0];
         // var list = JSON.parse(sessionStorage.getItem('buy_product'));

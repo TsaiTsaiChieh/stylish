@@ -18,9 +18,9 @@
 <body>
     <!-- header 選單 Begin -->
     <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="./index.html">
-            <img src="images/logo.png" alt="Logo" class="logo"></a>
-
+        <a class="navbar-brand" href="index.html">
+            <img src="images/logo.png" alt="Logo" class="logo">
+        </a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto">
 
@@ -35,7 +35,6 @@
                 </li>
             </ul>
             <div class="feature">
-
                 <div class="search_wrap">
                     <input class="form-control mr-sm-2 search" type="text">
                     <div class='search-btn'></div>
@@ -48,8 +47,23 @@
             </div>
         </div>
     </nav>
-    <nav class="mobile"></nav>
+    <nav class="mobile">
+        <ul class="mobile_link navbar-nav mr-auto">
 
+            <li class="nav-item">
+                <a class="nav-link" href="./?category=women&paging=0">女裝</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./?category=men&paging=0">男裝</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./?category=accessories&paging=0">配件</a>
+            </li>
+        </ul>
+    </nav>
+    <nav class="bottom">
+        <img class="member" src="images/member-mobile.png"><a class="member_link" href="profile.html">會員</a>
+    </nav>
     <!-- product page Begin -->
     <div class="container">
         <!-- <div class="card mb-3">
@@ -132,9 +146,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+
     <script src="js/product.js"></script>
     <script src="js/search.js"></script>
 

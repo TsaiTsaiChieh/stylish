@@ -80,6 +80,20 @@
             padding: 0;
             height: 2.2em;
         }
+
+        @media (max-width: 800px) {
+            .wrap {
+                flex-direction: column;
+
+            }
+
+            #recipient {
+                margin-left: 5%;
+                margin-right: 0;
+                margin-top: 10%;
+                margin-bottom: 10%;
+            }
+        }
     </style>
     <script src="https://js.tappaysdk.com/tpdirect/v5.1.0"></script>
     <script>
@@ -92,8 +106,8 @@
     <!-- header 選單 Begin -->
     <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand" href="index.html">
-            <img src="images/logo.png" alt="Logo" class="logo"></a>
-
+            <img src="images/logo.png" alt="Logo" class="logo">
+        </a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav mr-auto">
 
@@ -112,6 +126,7 @@
                     <input class="form-control mr-sm-2 search" type="text">
                     <div class='search-btn'></div>
                 </div>
+
                 <a href="#" class="cart">
                     <div class="cart-qty">0</div>
                 </a>
@@ -119,7 +134,23 @@
             </div>
         </div>
     </nav>
-    <nav class="mobile"></nav>
+    <nav class="mobile">
+        <ul class="mobile_link navbar-nav mr-auto">
+
+            <li class="nav-item">
+                <a class="nav-link" href="./?category=women&paging=0">女裝</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./?category=men&paging=0">男裝</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./?category=accessories&paging=0">配件</a>
+            </li>
+        </ul>
+    </nav>
+    <nav class="bottom">
+        <img class="member" src="images/member-mobile.png"><a class="member_link" href="profile.html">會員</a>
+    </nav>
     <!-- header 選單 End -->
     <!-- payment Begin -->
     <!-- <div style="width: 80%; margin: 50px auto;"> -->
