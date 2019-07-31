@@ -1,9 +1,9 @@
 const urlParams = new URLSearchParams(window.location.search);
-const category = urlParams.get('category');
+let category = urlParams.get('category');
 const page = document.getElementById('page');
 
 if (category) attachProductList(category);
-else if (category == null) attachIndexList();
+else if (category == null) { attachIndexList(); category = 'all'; };
 
 function attachIndexList() {
     const product_container = document.getElementsByClassName('product_container')[0];
@@ -11,7 +11,7 @@ function attachIndexList() {
     req.onreadystatechange = function () {
         if (req.readyState === 4) {
             var res = JSON.parse(req.responseText);
-            // var paging = res.paging;
+            var paging = urlParams.get('paging');
 
             for (let i = 0; i < Object.keys(res.data).length; i++) {
                 // create elememt
@@ -52,6 +52,7 @@ function attachIndexList() {
                 card.appendChild(card_body);
                 product_container.appendChild(card);
             }
+            attachPaging(paging, category);
         }
     };
     req.open('get', '/api/1/products/all?paging=0');
@@ -132,8 +133,8 @@ function attachProductList(category) {
 
 }
 function attachPaging(paging, category) {
-
-    var show_num = 3;
+    if (paging == null) paging = 0;
+    var show_num = 6;
     let pagination = document.createElement('ul');
     // set attribute
     pagination.setAttribute('class', 'pagination');
@@ -147,16 +148,16 @@ function attachPaging(paging, category) {
                 let page_item = document.createElement('li');
                 page_item.setAttribute('class', 'page-item');
                 page_link.setAttribute('class', 'page-link');
+
+
                 if (i == paging) page_item.setAttribute('class', 'page-item active');
                 page_link.innerHTML = i + 1;
                 // page_link.href = `women.html?paging=${i}`;
                 if (category == 'search') {
-
                     page_link.href = `./?category=${category}&keyword=${keyword}&paging=${i}`;
                 }
                 else {
                     page_link.href = `./?category=${category}&paging=${i}`;
-
                 };
                 page_item.appendChild(page_link);
                 pagination.appendChild(page_item);

@@ -3,6 +3,8 @@ const router = express.Router();
 var async = require("async"); //npm install --save async
 const db = require('../public/js/db');
 const cache = require('global-cache');
+
+var show_num = 6;
 router.get('/', (req, res) => {
     res.send('products');
 });
@@ -10,7 +12,7 @@ router.get('/', (req, res) => {
 router.get('/all', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
-    var show_num = 12;
+    // var show_num = 3;
     // default paging = 0
     if (!paging) {
         paging = 0;
@@ -98,7 +100,7 @@ router.get('/all', (req, res) => {
 router.get('/women', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
-    var show_num = 3;
+    // var show_num = 3;
     // default paging = 0
     if (!paging) {
         paging = 0;
@@ -183,7 +185,7 @@ router.get('/women', (req, res) => {
 router.get('/men', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
-    var show_num = 3;
+    // var show_num = 3;
     // default paging = 0
     if (!paging) {
         paging = 0;
@@ -270,7 +272,7 @@ router.get('/men', (req, res) => {
 router.get('/accessories', (req, res) => {
     var { paging } = req.query;
     paging = parseInt(paging);
-    var show_num = 3;
+    // var show_num = 3;
     // default paging = 0
     if (!paging) {
         paging = 0;
@@ -357,7 +359,7 @@ router.get('/search', (req, res) => {
     const { keyword } = req.query;
     var { paging } = req.query;
     paging = parseInt(paging);
-    var show_num = 3;
+    // var show_num = 3;
     // default paging = 1
     if (!paging) {
         paging = 0;
@@ -534,6 +536,11 @@ router.get('/getCount', (req, res) => {
             res.json({ count: result[0].count });
         });
 
+    }
+    else if (category == 'all') {
+        db.query(`SELECT COUNT(id) AS count FROM product`, (err, result) => {
+            res.json({ count: result[0].count });
+        });
     }
     else {
         db.query(`SELECT COUNT(id) AS count FROM product WHERE category = '${category}'`, (err, result) => {
