@@ -74,7 +74,8 @@ nav {
     flex: row;
     position: relative;
 }
-.feature .search-btn {
+.feature .search-btn, 
+.mobile_search .search-btn{
     display: block;
     width: 40px;
     height: 40px;
@@ -109,6 +110,10 @@ nav {
 .member {
     margin-left: 5px; 
 }
+
+.mobile_search  {
+    display: none;
+}
 /* Carousel setting */
 
 .full-width {
@@ -140,6 +145,7 @@ nav {
     margin: 10px;
     background-color: var(--charcoal-grey);
 }
+
 .msg {
     display: none;
     font-size: 24px;
@@ -265,7 +271,6 @@ footer {
     display: flex;
     margin-top: 5%;
    
-    
 }
 
 
@@ -399,12 +404,8 @@ nav#page {
     body {
         margin-bottom: 2.5em;
     }
-
     /* header setting */
-        .logo {
         
-        text-align: center;
-        }
         nav .search_wrap {
             position: absolute;
         }
@@ -417,11 +418,12 @@ nav#page {
     .navbar {
         height:5.5em;
         flex-direction: column;
-        
     }
     .navbar .logo {
+        margin-left: 0;
         margin-top: 2%; 
-        width: 80%;
+        width: 75%;
+        text-align: center;
         
     }
     
@@ -438,8 +440,10 @@ nav#page {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        
         flex-wrap: wrap;
+    }
+    .search_click {
+        display: none;
     }
     .mobile_link .nav-link {
     align-self: center;
@@ -447,12 +451,38 @@ nav#page {
     color: var(--light-gray);
 
     }
-    
     .mobile_link .nav-link:hover {
         color:white;
     }
-    
-    
+    .mobile_search  {
+        /* display: none; */
+        top:22px;
+        position: absolute;
+        margin: 0 auto;
+    }
+    .mobile_search .search {
+        height: 2.7em;
+        width: 20em;
+        z-index: 99;
+        border: 1px solid #979797;
+        border-radius: 20px;
+    }
+    .mobile_search .search-btn {
+        margin-top: 1%;
+    }
+    .search_click {
+        display: inline-block;
+        top: 2.8%;
+        right: 4%;
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        background: url('../images/search.png');
+        background-repeat: no-repeat;
+    }
+    .msg {
+        margin-top: 24%;
+    }
     .bottom{
         z-index: 99;
         width: 100%;
@@ -482,6 +512,19 @@ nav#page {
         font-size: .8em;
         line-height: 1.8;
     }
+    /* carousel */
+    #carouselExampleCaptions {
+        height: 200px;
+        
+    }
+    #carouselExampleCaptions img{
+        height: 200px;
+        object-fit: cover;
+        
+    }
+    .carousel-item {
+        background-size: cover;
+    }
     .carousel-indicators li{
         height: .4em;
         width: .4em;
@@ -497,7 +540,7 @@ nav#page {
     }
     
     .carousel-indicators {
-        bottom: -1.9em;
+        bottom: -1em;
     }
     .product_container .card {
         flex-basis:45%;
@@ -506,9 +549,11 @@ nav#page {
     .product_container .card-body {
         font-size: .85em;
         padding-bottom: 0;
+        padding-right: 0;
         
     }
     .product_container .product-name {
+        width: 100%;
         line-height: 1.5;
     }
     /* footer */
