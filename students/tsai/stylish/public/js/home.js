@@ -27,7 +27,8 @@ function attachIndexList() {
                 // set attributes
                 card.className = 'card';
                 card_img_top.className = 'card-img-top';
-                card_img_top.src = '../uploads/' + res.data[i].main_image;
+                // card_img_top.src = '../uploads/' + res.data[i].main_image;
+                card_img_top.src = res.data[i].main_image;
                 link.href = `/admin/products.html?id=${res.data[i].id}`;
                 card_body.className = 'card-body';
                 colors.className = 'colors';
@@ -86,7 +87,8 @@ function attachProductList(category) {
                 // set attributes
                 card.className = 'card';
                 card_img_top.className = 'card-img-top';
-                card_img_top.src = '../uploads/' + res.data[i].main_image;
+                // card_img_top.src = '../uploads/' + res.data[i].main_image;
+                card_img_top.src = res.data[i].main_image;
                 link.style.color = brown_color;
                 link.href = `/admin/products.html?id=${res.data[i].id}`;
                 card_body.className = 'card-body';
@@ -199,7 +201,8 @@ function attachBannerList(carousel) {
                 carousel_inner.appendChild(carousel_item);
                 let banner_img = document.createElement('img');
                 banner_img.setAttribute('class', 'd-block w-100');
-                banner_img.src = '../campaigns/' + res.data[i].picture;
+                // banner_img.src = '../campaigns/' + res.data[i].picture;
+                banner_img.src = res.data[i].picture;
                 carousel_item.appendChild(banner_img);
 
                 let carousel_caption = document.createElement('div');

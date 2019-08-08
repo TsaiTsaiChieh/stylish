@@ -1,12 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer'); // npm install --save multer
+const multerS3 = require('multer-s3') // npm install --save multer-s3
 const db = require('../public/js/db');
 const crypto = require('crypto');
 const async = require("async"); //npm install --save async
 const body_parser = require('body-parser');
 const request = require('request'); // npm install request
 const cache = require('global-cache');
+const fs = require('fs');
+const path = require('path');
+const AWS = require('../private/aws_config'); // npm install aws-sdk
+const s3 = new AWS.S3();
 
 router.use(body_parser.urlencoded({ extended: false }));
 router.use(body_parser.json());
@@ -15,19 +20,34 @@ router.get('/admin', (req, res) => {
 });
 
 // Set storage
-var storage = multer.diskStorage({
-    // 設定上傳後文件路徑，uploads 資料夾會自動建立
-    destination: function (req, files, cb) {
-        cb(null, 'uploads');
-    },
-    // 給上傳文件重新命名
-    filename: function (req, files, cb) {
-        files.originalname = files.originalname.replace('.jpg', '') + '_' + Date.now() + '.jpg';
-        cb(null, files.originalname);
-    }
-});
+// var storage = multer.diskStorage({
+//     // 設定上傳後文件路徑，uploads 資料夾會自動建立
+//     destination: function (req, files, cb) {
+//         cb(null, 'uploads');
+//     },
+//     // 給上傳文件重新命名
+//     filename: function (req, files, cb) {
+//         files.originalname = files.originalname.replace('.jpg', '') + '_' + Date.now() + '.jpg';
+//         cb(null, files.originalname);
+//     }
+// });
 // Build Product Management Page
-var upload = multer({ storage: storage }); // 設定添加到 multer 對象
+// var upload = multer({ storage: storage }); // 設定添加到 multer 對象
+// var imageLoad = upload.fields([{ name: 'products_main_image', maxCount: 1 }, { name: 'products_images', maxCount: 3 }]);
+var upload = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: 'stylish.bucket',
+        metadata: function (req, file, cb) {
+            // 設定要傳幾個檔案
+            cb(null, { fieldName: file.fieldname });
+        },
+        key: function (req, file, cb) {
+            var path = `products/${file.originalname.replace('.jpg', '')}_${Date.now()}.jpg`;
+            cb(null, path);
+        }
+    })
+});
 var imageLoad = upload.fields([{ name: 'products_main_image', maxCount: 1 }, { name: 'products_images', maxCount: 3 }]);
 router.post('/admin/product.html', imageLoad, (req, res) => {
     const category = req.body.products_category;
@@ -44,13 +64,14 @@ router.post('/admin/product.html', imageLoad, (req, res) => {
     const variants_name = req.body.products_variants_name.replace(/\s+/g, "").split(',');
     const variants_size = req.body.products_variants_size.replace(/\s+/g, "").split(',');
     const variants_stock = req.body.products_variants_stock.replace(/\s+/g, "").split(',');
-    const main_image = req.files.products_main_image[0].originalname;
+    // const main_image = req.files.products_main_image[0].originalname;
+    const main_image = req.files.products_main_image[0].location;
     var product_id = 0;
-
     // files format
     var images = [];
     for (let i = 0; i < req.files.products_images.length; i++) {
-        let tmp = req.files.products_images[i].originalname;
+        // let tmp = req.files.products_images[i].originalname;
+        let tmp = req.files.products_images[i].location;
         images.push(tmp);
     }
     images = JSON.stringify(images);
@@ -61,7 +82,7 @@ router.post('/admin/product.html', imageLoad, (req, res) => {
 
     db.query(sql_insert_product, products, (err, result) => {
         if (err) throw err;
-        else console.log(result);
+        // else console.log(result);
         product_id = result.insertId;
 
         for (let i = 0; i < variants_code.length; i++) {
@@ -70,7 +91,7 @@ router.post('/admin/product.html', imageLoad, (req, res) => {
             let variants = { color_code: variants_code[i], name: variants_name[i], size: variants_size[i], stock: variants_stock[i], product_id };
             db.query(insert_variant, variants, (err, result) => {
                 if (err) throw err;
-                else console.log('insert variant:', result);
+                // else console.log('insert variant:', result);
             });
         }
     });
@@ -79,25 +100,60 @@ router.post('/admin/product.html', imageLoad, (req, res) => {
 
 // Build Marketing Campaigns Management Page
 // Set Campaigns storage
-var storage_campaigns = multer.diskStorage({
-    // 設定上傳後文件路徑，campaigns 資料夾會自動建立
-    destination: function (req, file, cb) {
-        cb(null, 'campaigns');
-    },
-    // 給上傳文件重新命名
-    filename: function (req, file, cb) {
-        file.originalname = file.originalname.replace('.jpg', '') + '_' + Date.now() + '.jpg';
-        cb(null, file.originalname);
-    }
-});
-var campaigns = multer({ storage: storage_campaigns }); // 設定添加到 multer 對象
+// var storage_campaigns = multer.diskStorage({
+//     // 設定上傳後文件路徑，campaigns 資料夾會自動建立
+//     destination: function (req, file, cb) {
+//         cb(null, 'campaigns');
+//     },
+//     // 給上傳文件重新命名
+//     filename: function (req, file, cb) {
+//         file.originalname = file.originalname.replace('.jpg', '') + '_' + Date.now() + '.jpg';
+//         cb(null, file.originalname);
+//     }
+// });
+// var storage_campaigns = multerS3({
+//     s3: s3,
+//     bucket: 'stylish.bucket',
+//     metadata: function (req, file, cb) {
+//         // 設定要傳幾個檔案
+//         cb(null, { fieldName: file.fieldname });
+//     },
+//     key: function (req, file, cb) {
+//         cb(null, 'campaigns' + file.originalname.replace('.jpg', '') + '_' + Date.now() + '.jpg')
+//     }
+// });
+// var campaigns = multer({ storage: storage_campaigns }); // 設定添加到 multer 對象
+var campaigns = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: 'stylish.bucket',
+        metadata: function (req, file, cb) {
+            // 設定要傳幾個檔案
+            // console.log('file.filename:', file.filename);
+            cb(null, { fieldName: file.fieldname });
+        },
+        key: function (req, file, cb) {
+            var path = `campaigns/${file.originalname.replace('.jpg', '')}_${Date.now()}.jpg`;
+            cb(null, path);
+        }
+    })
+}); // 設定添加到 multer 對象
 // var campaignLoad = campaigns.fields([{ name: 'picture', maxCount: 1 }]);
-
 router.post('/admin/campaign.html', campaigns.single('picture'), (req, res) => {
+    ``
     const { product_id } = req.body;
     // Picture URL is http://localhost/campaigns/filename.jpg
-    const picture = req.file.filename;
+    // const picture = req.file.filename; // for multer
+    const picture = req.file.location;
     const { story } = req.body;
+    // var filePath = "./campaigns/main.jpg";
+    // var params = {
+    //     Bucket: 'stylish.bucket',
+    //     Body: fs.createReadStream(filePath),
+    //     Key: "folder/" + Date.now() + "_" + path.basename(filePath)
+    // };
+    // console.log(params);
+
     let campaign = { product_id, picture, story }; // campaign insert data
     let sql_insert_campaign = `INSERT INTO campaign SET ?`;
     db.query(sql_insert_campaign, campaign, (err, result) => {

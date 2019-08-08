@@ -73,7 +73,8 @@ function productInformation(container) {
             wash.setAttribute('class', 'wash sub-text');
             place.setAttribute('class', 'place sub-text');
             // setValue
-            card_img.src = '../uploads/' + res.data[0].main_image;
+            // card_img.src = '../uploads/' + res.data[0].main_image;
+            card_img.src = res.data[0].main_image;
             console.log(card_img.src);
 
             title.innerHTML = res.data[0].title;
@@ -112,7 +113,8 @@ function productInformation(container) {
             description.appendChild(story);
             for (let i = 0; i < res.data[0].images.length; i++) {
                 let img = document.createElement('img');
-                img.src = '../uploads/' + res.data[0].images[i];
+                // img.src = '../uploads/' + res.data[0].images[i];
+                img.src = res.data[0].images[i];
                 description.appendChild(img);
             }
             // appendChild
