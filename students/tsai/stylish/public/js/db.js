@@ -15,7 +15,7 @@ const db = mysql.createPool({
     /* optional */
     acquireTimeout: 10000,
     waitForConnections: true,
-    queueLimit: 5
+    queueLimit: 0
 });
 
 // db.connect(function (err) {
